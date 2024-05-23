@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    LOGIN
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-6">
+                <div class=" p-3 border rounded-3">
+                    <h2 class="text-center text-white">SENAI AMBIENTE</h2>
+                    <form action="login" method="post">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label for="id_nome">Nome de Usuário:</label>
+                        </div>
+                        <div class="mb-2">
+                            <label for="id_senha">Senha:</label>
+                        </div>
+                        <button type="submit></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

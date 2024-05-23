@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    CADASTRO
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h2>SENAI AMBIENTES</h2>
+        <div class="form-container mt-4">
+            <h3>Cadastro</h3>
+            <form>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" placeholder="Nome">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" class="form-control" id="email" placeholder="E-mail">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input type="text" class="form-control" id="sobrenome" placeholder="Sobrenome">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" class="form-control" id="senha" placeholder="Senha">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="cargo">Cargo</label>
+                        <input type="text" class="form-control" id="cargo" placeholder="Cargo">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="confirmarSenha">Confirme a senha</label>
+                        <input type="password" class="form-control" id="confirmarSenha" placeholder="Confirme a senha">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}

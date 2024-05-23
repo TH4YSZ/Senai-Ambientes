@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    Ambientes Senai 
+{% endblock %}
+
+
+{% block body %}
+    {% for item in dados_ambiente %}
+          <div class="card p-3 containerCard">
+            <h1 class="title">AMBIENTES - SENAI</h1>
+            <img src="{{item.salas.url}}" alt="salas">
+            <div class="card-body">
+              <p class="card-title">{{item.titulo}}</p>
+              <p class="card-text">{{item.descricao}}</p>
+              <a href="http://127.0.0.1:8000/reservas" class="btn btn-primary">Reserva</a>
+            </div>
+          </div>
+    {% endfor %}
+{% endblock %}
