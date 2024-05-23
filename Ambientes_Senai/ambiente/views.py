@@ -6,12 +6,14 @@ def homepage(request):
     context = {}
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
-    
+
     return render(request, 'homepage.html', context)
 
 def cadastro(request):
-
-    return render(request, 'cadastro.html')
+    context = {}
+    dados_senai = Senai.objects.all()
+    context["dados_senai"] = dados_senai
+    return render(request, 'cadastro.html', context)
 
 def ambientes(request):
     context = {}
@@ -23,5 +25,7 @@ def ambientes(request):
     return render(request, 'ambientes.html', context)
 
 def reservas(request):
-
-    return render(request, 'reservas.html')
+    context = {}
+    dados_senai = Senai.objects.all()
+    context["dados_senai"] = dados_senai
+    return render(request, 'reservas.html', context)

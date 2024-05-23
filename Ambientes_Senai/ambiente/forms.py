@@ -5,9 +5,11 @@ TIPO_USUARIOS = (
     ("PROFESSOR", "Professor"),
 )
 
-class FormReserva(forms.Form):
-    data = forms.DateField(label='Data', widget=forms.DateInput(attrs={'type': 'date'}))
 
+class FormLogin(forms.Form):
+    username = forms.CharField(label="Usuário", max_length=20)
+    password = forms.CharField(label="Senha", widget=forms.PasswordInput)
+    
 class FormCadastro(forms.Form):
     nome = forms.CharField(max_length=20)
     sobrenome = forms.CharField(max_length=20)
@@ -19,6 +21,7 @@ class FormCadastro(forms.Form):
         widget=forms.HiddenInput()
     )
 
-class FormLogin(forms.Form):
-    user = forms.CharField(label="Usuário", max_length=20)
-    password = forms.CharField(label="Senha", widget=forms.PasswordInputtrs)
+class FormReserva(forms.Form):
+    data = forms.DateField(label='Data', widget=forms.DateInput(attrs={'type': 'date'}))
+    horaio = forms.TimeField(label='Horário', widget=forms.TimeInput(attrs={'type': 'time'}))
+

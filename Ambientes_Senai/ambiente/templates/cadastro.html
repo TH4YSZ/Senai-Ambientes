@@ -6,7 +6,9 @@
 
 {% block body %}
     <div class="content">
-        <h2>SENAI AMBIENTES</h2>
+        {% for item in dados_senai %}   
+                <h2>{{item.titulo}}</h2>
+            {% endfor %}
         <div class="form-container mt-4">
             <h3>Cadastro</h3>
             <form>
