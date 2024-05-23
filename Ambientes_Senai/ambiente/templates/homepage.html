@@ -1,28 +1,32 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block title %}
     LOGIN
 {% endblock %}
 
+{% block head %}
+{% endblock %}
 
 {% block body %}
-    <div class="container">
+<div class="parallax">
+    <div class="flex container pb-5">
         <div class="row justify-content-center mt-5">
             <div class="col-lg-6">
                 {% for item in dados_senai %}   
                     <h2 class="text-center text-black">{{item.titulo}}</h2>
                 {% endfor %}
-                <div class=" p-3 rounded-3 border border-2">
+                <div class="p-3 rounded-3 mb-5 border border-1 border-black bg-white">
                     <h2 class="text-center text-black">Entrar</h2>
                     <form action="login" method="post">
                         {% csrf_token %}
-                        <div class="mb-2">
-                            <label for="id_nome" class="text-black">Nome de Usuário:</label>
-                            {{ form.username }}
+                        <div class="col-md-6 form-group">
+                            <label for="username">Nome</label>
+                            <input type="text" class="form-control" id="nome" placeholder="Nome">
                         </div>
-                        <div class="mb-2">
-                            <label for="id_senha" class="text-black">Senha:</label>
-                            {{ form.password }}
+                        <div class="col-md-6 form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" class="form-control" id="senha" placeholder="Senha">
                         </div>
                         <button type="submit" class="bg-black">Entrar</button>
                     </form>
@@ -30,4 +34,5 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

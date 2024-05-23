@@ -5,17 +5,18 @@
     Ambientes Senai 
 {% endblock %}
 
+
 {% block body %}
-    <div class="container">
-        {% for item in dados_ambiente %}
-              <div class="card p-3 containerCard mx-auto">
-                <img src="{{item.foto.url}}" alt="salas" class="card-img-top">
-                <div class="card-body">
-                  <h4 class="card-title">{{item.titulo}}</h4>
-                  <p class="card-text">{{item.descricao}}</p>
-                  <a href="http://127.0.0.1:8000/reservas" class="btn btn-dark btn-lg">Reserva</a>
-                </div>
-              </div>
-        {% endfor %}
-    </div>
+<div class="centralizar">
+    {% for item in dados_ambiente %}
+          <div class="card p-3 containerCard">
+            <img src="{{item.foto.url}}" alt="salas">
+            <div class="card-body">
+              <h4 class="card-title">{{item.titulo}}</h4>
+              <p class="card-text">{{item.descricao}}</p>
+              <a href="reservas" class="btn btn-dark btn-lg " style="width: 100%;">Reservar</a>
+            </div>
+          </div>
+    {% endfor %}
+</div>
 {% endblock %}

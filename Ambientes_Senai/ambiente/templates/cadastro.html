@@ -5,13 +5,61 @@
 {% endblock %}
 
 {% block body %}
+
+<style>
+    .navbar {
+        background-color: #d71921;
+        padding: 1rem;
+    }
+    .navbar-brand svg {
+        height: 50px;
+    }
+    .content {
+        text-align: center;
+        margin-top: 30px;
+    }
+    .form-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+        border: 2px solid #000000; /* Adicionado para borda */
+        border-radius: 20px; /* Adicionado para borda arredondada */
+    }
+    .form-container .form-group {
+        margin-bottom: 1rem;
+        text-align: left; /* Adiciona alinhamento à esquerda */
+    }
+    .form-container .form-control::placeholder {
+        color: #aaa; /* Altera a cor do placeholder */
+    }
+    .form-container .btn-primary {
+        background-color: #000;
+        border: none;
+        width: 100%;
+    }
+    .form-container .btn-primary:hover {
+        background-color: #333;
+    }
+    .form-container .form-text {
+        text-align: right;
+    }
+    
+    label{
+        color: #000;
+    }
+    
+</style>
+
     <div class="content">
-        {% for item in dados_senai %}   
-                <h2>{{item.titulo}}</h2>
-            {% endfor %}
-        <div class="form-container mt-4">
+        {% for item in dados_senai %}
+            <h2>{{item.titulo}}</h2>
+        {% endfor %}
+        <div class="form-container mt-4 mb-4">
             <h3>Cadastro</h3>
-            <form>
+            <form class="mt-4">
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="nome">Nome</label>
@@ -46,4 +94,4 @@
             </form>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
