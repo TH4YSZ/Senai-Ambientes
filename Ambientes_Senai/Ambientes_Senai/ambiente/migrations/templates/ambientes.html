@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    Ambientes Senai 
+{% endblock %}
+
+{% block body %}
+          {% for item in dados_ambiente %}
+          <div class="card p-3 containerCard">
+            <h1 class="title">Ambientes do senai</h1>
+            <img src="{{item.foto.url}}" alt="Salas">
+            <div class="card-body">
+                <h3 class="card-title">{{item.nome}}</h3>
+              <p class="card-text">{{item.descricao}}</p>
+              <a href="" class="btn btn-primary"></a>
+            </div>
+          </div>
+          {% endfor %}
+{% endblock %}

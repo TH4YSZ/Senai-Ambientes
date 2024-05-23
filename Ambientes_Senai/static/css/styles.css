@@ -7,3 +7,22 @@
     list-style: none;
     text-decoration: none;
 }
+
+
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+
+.containerCard{
+    width: 30rem; 
+    margin: 30px; 
+    text-align: center; 
+    padding: 20px; 
+    display: flex;  
+    justify-content: center; 
+    justify-items: center; 
+    color: #000000 ;
+    background-color: rgb(190, 190, 190);
+}
