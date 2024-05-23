@@ -36,28 +36,25 @@
 {% endblock %}
 
 {% block body %}
-    <div class="parallax">
-        <div class="flex container pb-5">
-            <div class="row justify-content-center mt-5">
-                <div class="col-lg-6">
-                    <div class="bg-dark p-3 rounded-3 mb-5">
-                        <h2 class="text-center text-white">Login</h2>
-                        <form action="login" method="post">
-                            {% csrf_token %}
-                            <div class="mb-2">
-                                <label for="id_user" class="text-white">Usuário:</label>
-                                {{ form.user }}
-                            </div>
-                            <div class="mb-2">
-                                <label for="id_senha">Senha:</label>
-                                {{ form.password }} 
-                            </div>
-                            <button type="submit" class="bg-secondary">Entrar</button>
-                        </form>
-                    </div>
+    <div class="flex container pb-5">
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-6">
+                <div class="bg-dark p-3 rounded-3 mb-5">
+                    <h2 class="text-center text-white">Login</h2>
+                    <form action="login" method="post">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label for="id_user" class="text-white">Usuário:</label>
+                            {{ form.user }}
+                        </div>
+                        <div class="mb-2">
+                            <label for="id_senha">Senha:</label>
+                            {{ form.password }} 
+                        </div>
+                        <button type="submit" class="bg-secondary">Entrar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

@@ -1,11 +1,32 @@
 from django.shortcuts import render
-from .models import Senai  
+from .models import *
+
 # Create your views here.
 def login(request):
     context = {}
-    dados_senai = Senai.objects.all() #consulta no banco de dados trazendo todas as informações do hotel por meio de um objeto
+    dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
+
     return render(request, 'login.html', context)
 
 def cadastro(request):
-    pass
+    context = {}
+    dados_senai = Senai.objects.all()
+    context["dados_senai"] = dados_senai
+
+    return render(request, 'cadastro.html', context)
+
+def ambientes(request):
+    context = {}
+    dados_senai = Senai.objects.all()
+    dados_ambiente = Ambiente.objects.all()
+    context["dados_senai"] = dados_senai
+    context["dados_ambiente"] = dados_ambiente
+
+    return render(request, 'ambientes.html', context)
+
+def reservas(request):
+    context = {}
+    dados_senai = Senai.objects.all()
+    context["dados_senai"] = dados_senai
+    return render(request, 'reservas.html', context)
