@@ -10,6 +10,21 @@ def homepage(request):
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
 
+    if request.method == "POST":
+        form = FormLogin(request.POST)
+        if form.is_valid():
+            var_username = form.cleaned_data['username']
+            var_password = form.cleaned_data['password']
+
+            user = User.objects.create_user(username=var_username, password=var_password)
+            user.save()
+            return redirect("ambientes")
+        else:
+            return redirect("homepage")
+    else:
+        form = FormLogin()
+
+    context.update({"form": form})
     return render(request, 'homepage.html', context)
 
 def cadastro(request):
@@ -23,13 +38,17 @@ def cadastro(request):
             var_nome = form.cleaned_data['nome']
             var_sobrenome = form.cleaned_data['sobrenome']
             var_username = form.cleaned_data['username']
-            var_password = form.cleaned_data['password']
+            var_senha = form.cleaned_data['senha']
+            var_cargo = form.cleaned_data['cargo']
 
-            user = User.objects.create_user(username=var_username, password=var_password)
-            user.nome = var_nome
-            user.sobrenome = var_sobrenome
+
+            user = User.objects.create_user(username=var_username, password=var_senha)
+            user.first_name = var_nome
+            user.last_name = var_sobrenome
+            user.cargo = var_cargo
             user.save()
-            return redirect("login")
+
+            return redirect("homepage")
         else:
             return redirect("cadastro")
     else:

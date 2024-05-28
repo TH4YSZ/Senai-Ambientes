@@ -11,87 +11,85 @@
         background-color: #d71921;
         padding: 1rem;
     }
+
     .navbar-brand svg {
         height: 50px;
     }
+
     .content {
         text-align: center;
         margin-top: 30px;
     }
+
     .form-container {
         background: #fff;
         padding: 30px;
-        border-radius: 10px;
+        border-radius: 20px; /* Borda arredondada */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         margin: 0 auto;
-        border: 2px solid #000000; /* Adicionado para borda */
-        border-radius: 20px; /* Adicionado para borda arredondada */
+        border: 1px solid #000; /* Borda preta */
     }
+
     .form-container .form-group {
         margin-bottom: 1rem;
-        text-align: left; /* Adiciona alinhamento à esquerda */
+        text-align: left; /* Alinhamento à esquerda */
     }
+
+    .form-container .form-control {
+        width: 100%; /* Tamanho máximo do input em 100% */
+        border: 1px solid #000; /* Borda preta */
+    }
+
     .form-container .form-control::placeholder {
-        color: #aaa; /* Altera a cor do placeholder */
+        color: #aaa; /* Cor do placeholder */
     }
+
     .form-container .btn-primary {
-        background-color: #000;
+        background-color: #000; /* Cor do botão */
         border: none;
         width: 100%;
     }
+
     .form-container .btn-primary:hover {
-        background-color: #333;
+        background-color: #333; /* Cor do botão ao passar o mouse */
     }
-    .form-container .form-text {
-        text-align: right;
+
+    .form-container label {
+        color: #000; /* Cor do texto do label */
     }
-    
-    label{
-        color: #000;
-    }
-    
+
 </style>
 
-    <div class="content">
-        {% for item in dados_senai %}
-            <h2>{{item.titulo}}</h2>
-        {% endfor %}
-        <div class="form-container mt-4 mb-4">
-            <h3>Cadastro</h3>
-            <form class="mt-4">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label for="nome">Nome</label>
-                        <input type="text" class="form-control" id="nome" placeholder="Nome">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" class="form-control" id="email" placeholder="E-mail">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label for="sobrenome">Sobrenome</label>
-                        <input type="text" class="form-control" id="sobrenome" placeholder="Sobrenome">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label for="senha">Senha</label>
-                        <input type="password" class="form-control" id="senha" placeholder="Senha">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label for="cargo">Cargo</label>
-                        <input type="text" class="form-control" id="cargo" placeholder="Cargo">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label for="confirmarSenha">Confirme a senha</label>
-                        <input type="password" class="form-control" id="confirmarSenha" placeholder="Confirme a senha">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
-            </form>
-        </div>
+<div class="content">
+    {% for item in dados_senai %}
+        <h2>{{ item.titulo }}</h2>
+    {% endfor %}
+    <div class="form-container mt-4 mb-4">
+        <h3>Cadastro</h3>
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_nome">Nome</label>
+                {{ form.nome }}
+            </div>
+            <div class="form-group">
+                <label for="id_sobrenome">Sobrenome</label>
+                {{ form.sobrenome }}
+            </div>
+            <div class="form-group">
+                <label for="id_username">Nome de Usuário</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="id_senha">Senha</label>
+                {{ form.senha }}
+            </div>
+            {{ form.cargo }}
+            <button type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
+            <a style="color: #000; text-decoration: none;" href="/">Já possui uma conta? Faça login.</a>
+        </form>
     </div>
+</div>
+
 {% endblock %}

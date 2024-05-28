@@ -5,18 +5,62 @@
     Ambientes Senai 
 {% endblock %}
 
+{% block head %}
+  <style>
+  .card {
+  padding: 20px;
+  width: 300px;
+  min-height: 300px;
+  border-radius: 20px;
+  background: #fafafa;
+  box-shadow: 5px 5px 6px #dadada;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+}
+
+.card:hover {
+  translate: 0 -10px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  margin: 15px 0 0 10px;
+  text-align: center;
+}
+
+.card-image {
+  min-height: 170px;
+  background-color: #c9c9c9;
+  border-radius: 30px;
+  box-shadow: inset 8px 8px 10px rgb(178, 177, 177);
+}
+
+.card-body {
+  color: rgb(31, 31, 31);
+  font-size: 15px;
+}
+
+
+  </style>
+{% endblock %}
+
 
 {% block body %}
+<div class="parallax">
 <div class="centralizar">
     {% for item in dados_ambiente %}
-          <div class="card p-3 containerCard">
-            <img src="{{item.foto.url}}" alt="salas">
-            <div class="card-body">
-              <h4 class="card-title">{{item.titulo}}</h4>
-              <p class="card-text">{{item.descricao}}</p>
-              <a href="reservas" class="btn btn-dark btn-lg " style="width: 100%;">Reservar</a>
-            </div>
-          </div>
+      <div class="card ">
+        <div class="card-image">
+          <img src="{{item.foto.url}}" alt="salas">
+        </div>
+          <h4 class="card-title">{{item.titulo}}</h4>
+          <p class="card-body">{{item.descricao}}</p>
+        <a href="reservas" class="btn btn-dark btn-lg " style="width: 100%;">Reservar</a>
+      </div>
     {% endfor %}
+</div>
 </div>
 {% endblock %}

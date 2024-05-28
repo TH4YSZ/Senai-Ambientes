@@ -9,27 +9,36 @@
 {% endblock %}
 
 {% block body %}
+
+<style>
+    .form-group {
+    width: 100%; /* Tamanho máximo do input em 100% */
+}
+</style>
+
 <div class="parallax">
-    <div class="flex container pb-5">
-        <div class="row justify-content-center mt-5">
+    <div class="flex container pb-5 m-5">
+        <div class="row justify-content-center">
             <div class="col-lg-6">
-                {% for item in dados_senai %}   
-                    <h2 class="text-center text-black">{{item.titulo}}</h2>
+                {% for item in dados_senai %}
+                    <h2 style="font-size: 40px; font-weight: 600;" class="text-center mb-5  mt-5 pt-5 p-2">{{item.titulo}}</h2>
                 {% endfor %}
-                <div class="p-3 rounded-3 mb-5 border border-1 border-black bg-white">
-                    <h2 class="text-center text-black">Entrar</h2>
-                    <form action="login" method="post">
+                <div class="p-4 mb-5 rounded-4 border border-1 border-black bg-white d-flex justify-content-center flex-column">
+                    <h2 class="text-center text-black pb-4">Entrar </h2>
+                    <form action="login" method="post" class="p-4">
                         {% csrf_token %}
                         <div class="col-md-6 form-group">
                             <label for="username">Nome</label>
-                            <input type="text" class="form-control" id="nome" placeholder="Nome">
+                            {{form.username}}
                         </div>
                         <div class="col-md-6 form-group">
                             <label for="password">Senha</label>
-                            <input type="password" class="form-control" id="senha" placeholder="Senha">
+                            {{form.password}}
                         </div>
+
                         <button type="submit" class="bg-black">Entrar</button>
                     </form>
+                    <img src="{% static '/img/trabalho_vetor.jpg' %}" alt="Imagem">
                 </div>
             </div>
         </div>
