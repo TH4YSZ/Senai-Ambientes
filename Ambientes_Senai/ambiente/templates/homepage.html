@@ -5,9 +5,6 @@
 LOGIN
 {% endblock %}
 
-{% block head %}
-{% endblock %}
-
 {% block body %}
 
 <style>
@@ -50,6 +47,9 @@ LOGIN
 </style>
 
 
+
+
+
 <div class="flex container pb-5 m-5" style="display: flex; flex-direction: row; justify-content: space-around;">
     <div class="col-lg-6">
         {% for item in dados_senai %}
@@ -58,8 +58,8 @@ LOGIN
         </h2>
         {% endfor %}
         <div class="p-4 mb-5 border border-danger rounded-4">
-            <h2 class="text-center text-black pb-4">Entrar</h2>
-            <form action="ambientes" method="post" class="p-4">
+            <h2 class="text-center text-black pb-2">Entrar</h2>
+            <form action="{% url 'homepage' %}" method="post" class="p-4">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Nome</label>
@@ -69,23 +69,25 @@ LOGIN
                     <label for="password">Senha</label>
                     {{form.password}}
                 </div>
+                <div>
+                    {% if messages %}
+                    {% for mensagem in messages %}
+                    <div class="mt-2 alert alert-warning" role="alert">
+                        {{ mensagem }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
                 <button type="submit" class="bg-black">Entrar</button>
             </form>
         </div>
     </div>
     <figure>
-        <img src="{% static '/img/trabalho_vetor.jpg' %}" alt="Imagem"
-            style="max-width: 400px; margin-top: 150px;">
-        <figcaption style="font-size: 7px; color: #495057">Imagem distribuida por Freepik</figcaption>
+        <img src="{% static '/img/trabalho_vetor.jpg' %}" alt="Imagem" style="max-width: 400px; margin-top: 150px;">
+        <figcaption style="font-size: 7px; color: #495057">Imagem distribuída por Freepik</figcaption>
     </figure>
 </div>
 
-{% if messages %}
-    {% for mensagem in messages %}
-        <div class="alert alert-warning" role="alert">
-          {{ mensagem }}
-        </div>
-    {% endfor %}
-{% endif %}
+
 
 {% endblock %}

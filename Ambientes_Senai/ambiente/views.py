@@ -4,7 +4,7 @@ from .models import *
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 def homepage(request):
     context = {}
@@ -18,14 +18,12 @@ def homepage(request):
             var_password = form.cleaned_data['password']
 
             user = authenticate(username=var_username, password=var_password)
-
             if user is not None:
+                auth_login(request, user)
                 return redirect("ambientes")
             else:
-                messages.info(request, "Preencha todos os campos")
-                return redirect("homepage")
+                messages.error(request, "Nome de usuário ou senha incorretos")
     else:
-        messages.info(request, "Usuario nao autorizado")
         form = FormLogin()
 
     context.update({"form": form})
@@ -45,16 +43,21 @@ def cadastro(request):
             var_senha = form.cleaned_data['senha']
             var_cargo = form.cleaned_data['cargo']
 
-
             user = User.objects.create_user(username=var_username, password=var_senha)
             user.first_name = var_nome
             user.last_name = var_sobrenome
-            user.cargo = var_cargo
             user.save()
 
+            # Cria o perfil do usuário personalizado
+            Usuario.objects.create(
+                nome=var_nome,
+                sobrenome=var_sobrenome,
+                username=var_username,
+                senha=var_senha,
+                cargo=var_cargo
+            )
+
             return redirect("homepage")
-        else:
-            return redirect("cadastro")
     else:
         form = FormCadastro()
 
@@ -75,11 +78,11 @@ def reservas(request, id):
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
     id_ambiente = Ambiente.objects.filter(id=id).first()
-    
+
     if request.method == "POST":
         form = FormReserva(request.POST)
         if form.is_valid():
-            var_username = request.user.username
+            var_username = request.user.username  # Corrigido para request.user.username
             var_data = form.cleaned_data['data']
             var_hora = form.cleaned_data['horario']
 

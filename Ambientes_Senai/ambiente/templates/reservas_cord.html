@@ -4,14 +4,21 @@
     Minhas Reservas
 {% endblock %}
 
+{% block head %}
+<style>
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="content">
-    <h2 style="font-size: 40px; font-weight: 600;">Minhas Reservas</h2>
+    <h2 style="font-size: 40px; font-weight: 600;">Reservas Senai</h2>
     <div class="reservations-container mt-4 mb-4">
         {% if reservas %}
             <ul class="list-group">
                 {% for reserva in reservas %}
-                    <li class="list-group-item">
+                    <li class="list-group-item" style="text-align: justify;">
+                        <button style="background-color: white;" class="border border-1 rounded rounded-3 p-1">Editar</button>
+                        <button style="background-color: red;" class="border border-1 rounded rounded-3 p-1">Remover</button>
                         <strong>Data:</strong> {{ reserva.data }} <br>
                         <strong>Horário:</strong> {{ reserva.horario }} <br>
                         <strong>Sala:</strong> {{ reserva.sala.titulo }}
@@ -19,7 +26,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p>Você não tem reservas.</p>
+            <p>Você não possui reservas.</p>
         {% endif %}
     </div>
 </div>

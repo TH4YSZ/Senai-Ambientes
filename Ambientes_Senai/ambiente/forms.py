@@ -6,15 +6,11 @@ TIPO_USUARIOS = (
 )
 
 class FormLogin(forms.Form):
-    username = forms.CharField(
-        label="Usuario",
-        max_length=20,
-        widget=forms.TextInput(attrs={'placeholder': 'Nome de Usuario', 'class': 'form-control'})
-    )
-    password = forms.CharField(
-        label="Senha",
-        widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'})
-    )
+    username = forms.CharField(max_length=20,
+        widget=forms.TextInput(attrs={'placeholder':'Nome de Usuario', 'class': 'form-control'}))
+    password = forms.CharField(max_length=20,
+        widget=forms.PasswordInput(attrs={'placeholder':'Senha', 'class':'form-control'})
+        )
 
 class FormCadastro(forms.Form):
     nome = forms.CharField(
@@ -42,5 +38,5 @@ class FormCadastro(forms.Form):
 
 class FormReserva(forms.Form):
     data = forms.DateField(label='Data', widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
-    horario = forms.TimeField(label='Horário', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
+    horario = forms.TimeField(label='Horario', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
     
