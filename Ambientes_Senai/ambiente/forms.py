@@ -5,7 +5,6 @@ TIPO_USUARIOS = (
     ("PROFESSOR", "Professor"),
 )
 
-
 class FormLogin(forms.Form):
     username = forms.CharField(
         label="Usuário",
@@ -17,25 +16,29 @@ class FormLogin(forms.Form):
         widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'})
     )
 
-
 class FormCadastro(forms.Form):
     nome = forms.CharField(
         max_length=20,
-        widget=forms.TextInput(attrs={'placeholder': 'Nome', 'class': 'form-control'}))
-
+        widget=forms.TextInput(attrs={'placeholder': 'Nome', 'class': 'form-control'})
+    )
     sobrenome = forms.CharField(
         max_length=20,
-        widget=forms.TextInput(attrs={'placeholder': 'Sobrenome', 'class': 'form-control'}))
-
+        widget=forms.TextInput(attrs={'placeholder': 'Sobrenome', 'class': 'form-control'})
+    )
     username = forms.CharField(
         max_length=20,
-        widget=forms.TextInput(attrs={'placeholder': 'Nome de Usuário', 'class': 'form-control'}))
-
+        widget=forms.TextInput(attrs={'placeholder': 'Nome de Usuário', 'class': 'form-control'})
+    )
     senha = forms.CharField(
         max_length=20,
-        widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'}))
-    cargo = forms.ChoiceField(label="Cargo", choices=TIPO_USUARIOS, initial='PROFESSOR')
-
+        widget=forms.PasswordInput(attrs={'placeholder': 'Senha', 'class': 'form-control'})
+    )
+    cargo = forms.ChoiceField(
+        label="Cargo",
+        choices=TIPO_USUARIOS,
+        initial='PROFESSOR',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
 class FormReserva(forms.Form):
     data = forms.DateField(label='Data', widget=forms.DateInput(attrs={'type': 'date'}))

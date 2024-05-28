@@ -18,7 +18,7 @@
 
     .content {
         text-align: center;
-        margin-top: 30px;
+        margin: 48px;
     }
 
     .form-container {
@@ -63,7 +63,7 @@
 
 <div class="content">
     {% for item in dados_senai %}
-        <h2>{{ item.titulo }}</h2>
+        <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
     {% endfor %}
     <div class="form-container mt-4 mb-4">
         <h3>Cadastro</h3>
@@ -85,8 +85,11 @@
                 <label for="id_senha">Senha</label>
                 {{ form.senha }}
             </div>
-            {{ form.cargo }}
-            <button type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
+            <div class="form-group">
+                <label for="id_cargo">Cargo</label>
+                {{ form.cargo }}
+            </div>
+            <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
             <a style="color: #000; text-decoration: none;" href="/">Já possui uma conta? Faça login.</a>
         </form>
     </div>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
 
 # Create your views here.
 def homepage(request):
@@ -16,11 +16,12 @@ def homepage(request):
             var_username = form.cleaned_data['username']
             var_password = form.cleaned_data['password']
 
-            user = User.objects.create_user(username=var_username, password=var_password)
-            user.save()
-            return redirect("ambientes")
-        else:
-            return redirect("homepage")
+            user = authenticate(username=var_username, password=var_password)
+
+            if user is not None:
+                return redirect("ambientes")
+            else:
+                return redirect("homepage")
     else:
         form = FormLogin()
 
@@ -66,8 +67,27 @@ def ambientes(request):
 
     return render(request, 'ambientes.html', context)
 
-def reservas(request):
+def reservas(request, id):
     context = {}
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
+    id_ambiente = Ambiente.objects.filter(id = id)
+    
+    if request.method == "POST":
+        form = FormReserva(request.POST)
+        if form.is_valid():
+            var_username = request.user.username
+            var_data = form.cleaned_data['data']
+            var_hora = form.cleaned_data['horario']
+
+            user = Reserva(username= var_username, data= var_data, horario= var_hora, sala = id_ambiente)
+            user.save()
+
+            return redirect("ambientes")
+        else:
+            return redirect("reservas")
+    else:
+        form = FormReserva()
+
+    context.update({"form": form})
     return render(request, 'reservas.html', context)

@@ -7,60 +7,89 @@
 
 {% block head %}
   <style>
+  .card-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    width: 100vw;
+    padding: 30px;
+  }
+
   .card {
-  padding: 20px;
-  width: 300px;
-  min-height: 300px;
-  border-radius: 20px;
-  background: #fafafa;
-  box-shadow: 5px 5px 6px #dadada;
-  transition: 0.4s;
-  display: flex;
-  align-items: center;
-}
+    padding: 20px;
+    width: 300px;
+    height: 500px;
+    border-radius: 20px;
+    background: #fafafa;
+    box-shadow: 5px 5px 6px #dadada;
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: space-between; 
+    margin: 20px;
+  }
 
-.card:hover {
-  translate: 0 -10px;
-}
+  .card:hover {
+    translate: 0 -10px;
+  }
 
-.card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #000000;
-  margin: 15px 0 0 10px;
-  text-align: center;
-}
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000;
+    margin: 15px 0 0 10px;
+    text-align: center;
+  }
 
-.card-image {
-  min-height: 170px;
-  background-color: #c9c9c9;
-  border-radius: 30px;
-  box-shadow: inset 8px 8px 10px rgb(178, 177, 177);
-}
+  .card-image {
+    width: 100%;
+    background-color: #c9c9c9;
+    border-radius: 30px;
+    box-shadow: inset 8px 8px 10px rgb(178, 177, 177);
+  }
 
-.card-body {
-  color: rgb(31, 31, 31);
-  font-size: 15px;
-}
+  .card-body {
+    color: rgb(31, 31, 31);
+    font-size: 15px;
+    text-align: center;
+    padding: 10px;
+    overflow-y: auto; 
+    max-height: 200px; 
+  }
 
+  .parallax2 {
+    background: url(../../static/img/engrenagens.jpg);
+    filter: brightness(85%);
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: color;
+    display: flex;
+    background-attachment: fixed;
+  }
 
   </style>
 {% endblock %}
 
 
 {% block body %}
-<div class="parallax">
-<div class="centralizar">
+<div class="parallax2">
+  <div class="card-container">
     {% for item in dados_ambiente %}
-      <div class="card ">
+      <div class="card">
         <div class="card-image">
-          <img src="{{item.foto.url}}" alt="salas">
+          <img src="{{item.foto.url}}" alt="salas" style="width: 100%;">
         </div>
-          <h4 class="card-title">{{item.titulo}}</h4>
-          <p class="card-body">{{item.descricao}}</p>
-        <a href="reservas" class="btn btn-dark btn-lg " style="width: 100%;">Reservar</a>
+      
+        <h4 class="card-title">{{item.titulo}}</h4>
+        <p class="card-body">{{item.descricao}}</p>
+        <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>
       </div>
     {% endfor %}
-</div>
+  </div>
 </div>
 {% endblock %}

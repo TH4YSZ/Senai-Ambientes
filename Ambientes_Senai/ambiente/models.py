@@ -6,7 +6,6 @@ TIPO_USUARIOS = (
     ("PROFESSOR", "Professor"),
 )
 
-TIPO_SALAS = ()
 
 class Senai(models.Model):
     titulo = models.CharField(max_length=50)
@@ -35,5 +34,5 @@ class Usuario(models.Model):
 class Reserva(models.Model):
     data = models.CharField(max_length=10)
     horario = models.CharField(max_length=10)
-    sala = models.CharField(max_length=15, choices=TIPO_SALAS)
+    sala = models.CharField(max_length=15)
     username = models.CharField(max_length=20)

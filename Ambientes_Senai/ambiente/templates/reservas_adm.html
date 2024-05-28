@@ -1,13 +1,10 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    RESERVAS
+    CADASTRO
 {% endblock %}
 
 {% block body %}
-
-<!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
     .navbar {
@@ -62,42 +59,11 @@
         color: #000; /* Cor do texto do label */
     }
 
-    .flatpickr-calendar {
-        max-width: 300px;
-        margin: 0 auto;
-    }
 </style>
 
 <div class="content">
     {% for item in dados_senai %}
-        <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
     {% endfor %}
-    <div class="form-container mt-4 mb-4">
-        <h3>Reservar</h3>
-        <form method="post" class="mt-4">
+
             {% csrf_token %}
-            <div class="form-group">
-                <label for="id_data">Data</label>
-                {{ form.data }}
-            </div>
-            <div class="form-group">
-                <label for="id_horario">Horário</label>
-                {{ form.horario }}
-            </div>
-            <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Reservar</button>
-        </form>
-    </div>
-</div>
-
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        flatpickr("[name='data']", {
-            inline: true, // Torna o calendário sempre visível
-            dateFormat: "Y-m-d" // Formato da data
-        });
-    });
-</script>
-
 {% endblock %}
