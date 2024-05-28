@@ -32,7 +32,10 @@ class Usuario(models.Model):
         return self.nome
 
 class Reserva(models.Model):
-    data = models.CharField(max_length=10)
-    horario = models.CharField(max_length=10)
-    sala = models.CharField(max_length=15)
+    data = models.DateField()
+    horario = models.TimeField()
+    sala = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
     username = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.username} - {self.data} - {self.horario}"

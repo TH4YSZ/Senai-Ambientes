@@ -1,28 +1,28 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #ff0000; height: 60px;">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-        {% for item in dados_senai %}   
-            <img src="{{ item.logo.url }}" alt="Logo" class="logo">
-        {% endfor %}
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: end;">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" style="color: #fff;" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #fff;" href="cadastro">Cadastro</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #fff;" href="ambientes">Ambientes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="color: #fff;" href="reservas">Minhas reservas</a>
-        </li>
-      </ul>
-    </div>
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+          {% for item in dados_senai %}   
+              <img src="{{ item.logo.url }}" alt="Logo" class="logo">
+          {% endfor %}
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: end;">
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link active" style="color: #fff;" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" style="color: #fff;" href="{% url 'cadastro' %}">Cadastro</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" style="color: #fff;" href="{% url 'ambientes' %}">Ambientes</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" style="color: #fff;" href="{% url 'reservacoord' %}">Minhas reservas</a>
+              </li>
+          </ul>
+      </div>
   </div>
 </nav>

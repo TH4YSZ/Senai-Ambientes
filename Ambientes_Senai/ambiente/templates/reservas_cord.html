@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    Minhas Reservas
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h2 style="font-size: 40px; font-weight: 600;">Minhas Reservas</h2>
+    <div class="reservations-container mt-4 mb-4">
+        {% if reservas %}
+            <ul class="list-group">
+                {% for reserva in reservas %}
+                    <li class="list-group-item">
+                        <strong>Data:</strong> {{ reserva.data }} <br>
+                        <strong>Horário:</strong> {{ reserva.horario }} <br>
+                        <strong>Sala:</strong> {{ reserva.sala.titulo }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Você não tem reservas.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

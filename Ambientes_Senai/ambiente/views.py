@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import *
 from .forms import *
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
 
-# Create your views here.
 def homepage(request):
     context = {}
     dados_senai = Senai.objects.all()
@@ -21,8 +22,10 @@ def homepage(request):
             if user is not None:
                 return redirect("ambientes")
             else:
+                messages.info(request, "Preencha todos os campos")
                 return redirect("homepage")
     else:
+        messages.info(request, "Usuario nao autorizado")
         form = FormLogin()
 
     context.update({"form": form})
@@ -71,7 +74,7 @@ def reservas(request, id):
     context = {}
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
-    id_ambiente = Ambiente.objects.filter(id = id)
+    id_ambiente = Ambiente.objects.filter(id=id).first()
     
     if request.method == "POST":
         form = FormReserva(request.POST)
@@ -80,14 +83,23 @@ def reservas(request, id):
             var_data = form.cleaned_data['data']
             var_hora = form.cleaned_data['horario']
 
-            user = Reserva(username= var_username, data= var_data, horario= var_hora, sala = id_ambiente)
-            user.save()
+            reserva = Reserva(username=var_username, data=var_data, horario=var_hora, sala=id_ambiente)
+            reserva.save()
 
             return redirect("ambientes")
         else:
-            return redirect("reservas")
+            return redirect(reverse('reservas', args=[id]))
     else:
         form = FormReserva()
 
     context.update({"form": form})
     return render(request, 'reservas.html', context)
+
+def reserva_cord(request):
+    context = {}
+    dados_senai = Senai.objects.all()
+    reservas = Reserva.objects.filter(username=request.user.username)
+    context["dados_senai"] = dados_senai
+    context["reservas"] = reservas
+
+    return render(request, 'reservas_cord.html', context)

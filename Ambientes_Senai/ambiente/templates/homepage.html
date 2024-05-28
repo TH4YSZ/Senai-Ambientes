@@ -57,7 +57,7 @@ LOGIN
             {{item.titulo}}
         </h2>
         {% endfor %}
-        <div class="p-4 mb-5 border border-danger rounded-4" >
+        <div class="p-4 mb-5 border border-danger rounded-4">
             <h2 class="text-center text-black pb-4">Entrar</h2>
             <form action="ambientes" method="post" class="p-4">
                 {% csrf_token %}
@@ -79,4 +79,13 @@ LOGIN
         <figcaption style="font-size: 7px; color: #495057">Imagem distribuida por Freepik</figcaption>
     </figure>
 </div>
+
+{% if messages %}
+    {% for mensagem in messages %}
+        <div class="alert alert-warning" role="alert">
+          {{ mensagem }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
