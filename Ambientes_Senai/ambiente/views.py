@@ -5,6 +5,7 @@ from .forms import FormLogin, FormCadastro, FormReserva
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 
 
 def homepage(request):
@@ -30,7 +31,7 @@ def homepage(request):
     context.update({"form": form})
     return render(request, 'homepage.html', context)
 
-
+@login_required
 def cadastro(request):
     context = {}
     dados_senai = Senai.objects.all()
@@ -66,10 +67,19 @@ def cadastro(request):
     else:
         form = FormCadastro()
 
+    # Definindo as variáveis de permissão no contexto
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
+
     context.update({"form": form})
     return render(request, 'cadastro.html', context)
 
 
+@login_required
 def ambientes(request):
     context = {}
     dados_senai = Senai.objects.all()
@@ -77,13 +87,28 @@ def ambientes(request):
     context["dados_senai"] = dados_senai
     context["dados_ambiente"] = dados_ambiente
 
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
+
     return render(request, 'ambientes.html', context)
 
+@login_required
 def reservas(request, id):
     context = {}
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
     id_ambiente = Ambiente.objects.filter(id=id).first()
+
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
 
     if request.method == "POST":
         form = FormReserva(request.POST)
@@ -104,11 +129,19 @@ def reservas(request, id):
     context.update({"form": form})
     return render(request, 'reservas.html', context)
 
+@login_required
 def minhas_reservas(request):
     context = {}
     dados_senai = Senai.objects.all()
     reservas = Reserva.objects.filter(username=request.user.username)
     context["dados_senai"] = dados_senai
     context["reservas"] = reservas
+
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
 
     return render(request, 'minhas_reservas.html', context)
