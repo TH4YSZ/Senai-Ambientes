@@ -6,5 +6,5 @@ urlpatterns = [
     path('cadastro', views.cadastro, name='cadastro'),
     path('ambientes', views.ambientes, name='ambientes'),
     path('reservas/<int:id>', views.reservas, name='reservas'),
-    path('reservacoord', views.reserva_cord, name='reservacoord')
+    path('minhas_reservas', views.minhas_reservas, name='minhas_reservas')
 ]

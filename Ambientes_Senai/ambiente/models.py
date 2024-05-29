@@ -1,11 +1,9 @@
 from django.db import models
 
-# Create your models here.
 TIPO_USUARIOS = (
     ("COORDENADOR", "Coordenador"),
     ("PROFESSOR", "Professor"),
 )
-
 
 class Senai(models.Model):
     titulo = models.CharField(max_length=50)

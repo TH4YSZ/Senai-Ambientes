@@ -24,39 +24,39 @@
     .form-container {
         background: #fff;
         padding: 30px;
-        border-radius: 20px; /* Borda arredondada */
+        border-radius: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         margin: 0 auto;
-        border: 1px solid #000; /* Borda preta */
+        border: 1px solid #000; 
     }
 
     .form-container .form-group {
         margin-bottom: 1rem;
-        text-align: left; /* Alinhamento à esquerda */
+        text-align: left; 
     }
 
     .form-container .form-control {
-        width: 100%; /* Tamanho máximo do input em 100% */
-        border: 1px solid #000; /* Borda preta */
+        width: 100%; 
+        border: 1px solid #000; 
     }
 
     .form-container .form-control::placeholder {
-        color: #aaa; /* Cor do placeholder */
+        color: #aaa; 
     }
 
     .form-container .btn-primary {
-        background-color: #000; /* Cor do botão */
+        background-color: #000; 
         border: none;
         width: 100%;
     }
 
     .form-container .btn-primary:hover {
-        background-color: #333; /* Cor do botão ao passar o mouse */
+        background-color: #333; 
     }
 
     .form-container label {
-        color: #000; /* Cor do texto do label */
+        color: #000; 
     }
 
 </style>
@@ -85,12 +85,7 @@
                 <label for="id_senha">Senha</label>
                 {{ form.senha }}
             </div>
-            <div class="form-group">
-                <label for="id_cargo">Cargo</label>
-                {{ form.cargo }}
-            </div>
             <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
-            <a style="color: #000; text-decoration: none;" href="/">Já possui uma conta? Faça login.</a>
         </form>
     </div>
 </div>

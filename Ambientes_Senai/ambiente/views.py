@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import *
-from .forms import *
+from .models import Senai, Usuario, Ambiente, Reserva
+from .forms import FormLogin, FormCadastro, FormReserva
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+
 
 def homepage(request):
     context = {}
@@ -29,6 +30,7 @@ def homepage(request):
     context.update({"form": form})
     return render(request, 'homepage.html', context)
 
+
 def cadastro(request):
     context = {}
     dados_senai = Senai.objects.all()
@@ -41,12 +43,15 @@ def cadastro(request):
             var_sobrenome = form.cleaned_data['sobrenome']
             var_username = form.cleaned_data['username']
             var_senha = form.cleaned_data['senha']
-            var_cargo = form.cleaned_data['cargo']
 
             user = User.objects.create_user(username=var_username, password=var_senha)
             user.first_name = var_nome
             user.last_name = var_sobrenome
             user.save()
+
+            # Adiciona o usuário ao grupo de professores
+            professor_group = Group.objects.get(name='Professores')
+            user.groups.add(professor_group)
 
             # Cria o perfil do usuário personalizado
             Usuario.objects.create(
@@ -54,15 +59,16 @@ def cadastro(request):
                 sobrenome=var_sobrenome,
                 username=var_username,
                 senha=var_senha,
-                cargo=var_cargo
+                cargo="PROFESSOR"
             )
 
-            return redirect("homepage")
+            return redirect("cadastro")
     else:
         form = FormCadastro()
 
     context.update({"form": form})
     return render(request, 'cadastro.html', context)
+
 
 def ambientes(request):
     context = {}
@@ -82,7 +88,7 @@ def reservas(request, id):
     if request.method == "POST":
         form = FormReserva(request.POST)
         if form.is_valid():
-            var_username = request.user.username  # Corrigido para request.user.username
+            var_username = request.user.username  
             var_data = form.cleaned_data['data']
             var_hora = form.cleaned_data['horario']
 
@@ -98,11 +104,11 @@ def reservas(request, id):
     context.update({"form": form})
     return render(request, 'reservas.html', context)
 
-def reserva_cord(request):
+def minhas_reservas(request):
     context = {}
     dados_senai = Senai.objects.all()
     reservas = Reserva.objects.filter(username=request.user.username)
     context["dados_senai"] = dados_senai
     context["reservas"] = reservas
 
-    return render(request, 'reservas_cord.html', context)
+    return render(request, 'minhas_reservas.html', context)
