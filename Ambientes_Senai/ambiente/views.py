@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Senai, Usuario, Ambiente, Reserva
-from .forms import FormLogin, FormCadastro, FormReserva
+from .models import *
+from .forms import *
 from django.contrib import messages
-from django.contrib.auth.models import User, Group
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
-
 
 def homepage(request):
     context = {}
@@ -30,6 +28,7 @@ def homepage(request):
 
     context.update({"form": form})
     return render(request, 'homepage.html', context)
+
 
 @login_required
 def cadastro(request):
