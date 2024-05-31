@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+
 from .models import *
 from .forms import *
+
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+
+
 
 def homepage(request):
     context = {}
@@ -144,3 +149,4 @@ def minhas_reservas(request):
         context['is_professores'] = False
 
     return render(request, 'minhas_reservas.html', context)
+
