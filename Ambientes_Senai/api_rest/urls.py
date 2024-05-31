@@ -4,5 +4,6 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    path('', views.senai, name='senai'),
+    path('senai', views.senai, name='senai'),
+    path('ambiente', views.ambientes, name='ambiente')
 ] 
