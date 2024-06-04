@@ -5,12 +5,12 @@ from .models import *
 from .forms import *
 
 from django.contrib.auth.models import User
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
+from django.shortcuts import redirect, get_object_or_404
 
 def homepage(request):
     context = {}
@@ -51,8 +51,6 @@ def cadastro(request):
             var_senha = form.cleaned_data['senha']
 
             user = User.objects.create_user(username=var_username, password=var_senha)
-
-
 
             user.first_name = var_nome
             user.last_name = var_sobrenome
@@ -127,7 +125,19 @@ def reservas(request, id):
             var_hora = form.cleaned_data['horario']
             var_horafinal = form.cleaned_data['hora_final']
 
-            reserva = Reserva(username=var_username, data=var_data, horario=var_hora, hora_final=var_horafinal ,sala=id_ambiente)
+            # Verificar se já existe uma reserva para o mesmo ambiente e horário
+            reserva_existente = Reserva.objects.filter(
+                sala=id_ambiente,
+                data=var_data,
+                horario__lt=var_horafinal,
+                hora_final__gt=var_hora
+            ).exists()
+
+            if reserva_existente:
+                messages.error(request, "Já existe uma reserva para este ambiente no horário selecionado.")
+                return redirect(reverse('reservas', args=[id]))
+
+            reserva = Reserva(username=var_username, data=var_data, horario=var_hora, hora_final=var_horafinal, sala=id_ambiente)
             reserva.save()
 
             return redirect("ambientes")
@@ -156,9 +166,6 @@ def minhas_reservas(request):
 
     return render(request, 'minhas_reservas.html', context)
 
-from django.shortcuts import redirect, get_object_or_404
-from .models import Reserva
-
 
 @login_required
 def excluir_reserva(request, id):
@@ -167,3 +174,50 @@ def excluir_reserva(request, id):
         reserva.delete()
         return redirect('minhas_reservas')
     return redirect('minhas_reservas')
+
+@login_required
+def excluir_ambiente(request, id):
+    ambiente = get_object_or_404(Ambiente, id=id)
+    if request.method == 'POST':
+        ambiente.delete()
+        return redirect('ambientes')
+    return redirect('ambientes')    
+
+
+@login_required
+def cad_ambiente(request):
+    context = {}
+    dados_senai = Senai.objects.all()
+    context["dados_senai"] = dados_senai
+
+    if request.method == "POST":
+        form = FormAmbiente(request.POST)
+        if form.is_valid():
+            var_titulo = form.cleaned_data['titulo']
+            var_descricao = form.cleaned_data['descricao']
+            var_sala = form.cleaned_data['sala']
+        
+
+            # Cria o novo ambiente 
+            Ambiente.objects.create(
+                titulo=var_titulo,
+                descricao=var_descricao,
+                sala=var_sala
+            )
+
+            messages.success(request, "Ambiente criado.")
+            return redirect("cad_ambiente")
+        
+    else:
+        form = FormAmbiente()
+
+    # Definindo as variáveis de permissão no contexto
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
+
+    context.update({"form": form})
+    return render(request, 'New_Ambiente.html', context)

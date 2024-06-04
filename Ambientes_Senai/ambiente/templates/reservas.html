@@ -79,7 +79,7 @@
     background-blend-mode: color;
     display: flex;
     background-attachment: fixed;
-  }
+    }
 
 </style>
 
@@ -104,6 +104,13 @@
                 <label for="id_horarioFinal">Horario Final</label>
                 {{ form.hora_final }}
             </div>
+            {% if messages %}
+            {% for mensagem in messages %}
+            <div class="mt-2 alert alert-warning" role="alert">
+                {{ mensagem }}
+            </div>
+            {% endfor %}
+            {% endif %}
             <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Reservar</button>
         </form>
     </div>

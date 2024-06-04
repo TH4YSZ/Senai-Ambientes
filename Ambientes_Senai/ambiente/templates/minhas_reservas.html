@@ -5,53 +5,75 @@
 {% endblock %}
 
 {% block head %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
     .content {
-        height: 400px;
+        min-height: 400px;
+    }
+    .reservation-header {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
     }
     .button-container {
         display: flex;
         flex-direction: column;
-        gap: 5px; /* Espaçamento entre os botões */
+        gap: 0.5rem; /* Espaçamento entre os botões */
     }
     .button-container button {
         background-color: white;
         border: 1px solid;
-        border-radius: 3px;
-        padding: 5px;
+        border-radius: 5px;
+        padding: 0.5rem;
     }
     .button-container button.remove {
         background-color: red;
         color: white;
     }
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+    .reservation-info {
+        flex-grow: 1;
+        text-align: left;
+    }
+    .no-reservations {
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="content">
-    <h2 style="font-size: 40px; font-weight: 600;">Reservas Senai</h2>
+<div class="container content">
+    <h2 class="reservation-header">Reservas Senai</h2>
     <div class="reservations-container mt-4 mb-4">
         {% if reservas %}
             <ul class="list-group">
                 {% for reserva in reservas %}
-                    <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center; flex-direction: row-reverse;">
-                        <div class="button-container">
-                            <button class="edit">Editar</button>
-                            <form method="POST" action="{% url 'excluir_reserva' reserva.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="remove">Remover</button>
-                            </form>
-                        </div>
-                        <div style="text-align: justify;">
+                    <li class="list-group-item">
+                        <div class="reservation-info">
                             <strong>Data:</strong> {{ reserva.data }} <br>
                             <strong>Horário:</strong> {{ reserva.horario }} <br>
-                            <strong>Sala:</strong> {{ reserva.sala.titulo }}
+                            <strong>Sala:</strong> {{ reserva.sala.titulo }} <br>
+                            <strong>Responsável:</strong> {{ reserva.username }}
+                        </div>
+                        <div class="button-container">
+                            {% if user.is_authenticated and is_coordenacao %}
+                                <form method="POST" action="{% url 'excluir_reserva' reserva.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="remove">Remover</button>
+                                </form>
+                            {% endif %}
                         </div>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>Você não possui reservas.</p>
+            <p class="no-reservations">Você não possui reservas.</p>
         {% endif %}
     </div>
 </div>

@@ -36,4 +36,7 @@ class FormReserva(forms.Form):
     horario = forms.TimeField(label='Horario_Inicial', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
     hora_final = forms.TimeField(label='Horario_Final', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
 
-
+class FormAmbiente(forms.Form):
+    titulo = forms.CharField(max_length=50)
+    descricao = forms.CharField(max_length=300)
+    sala = forms.CharField(max_length=50)

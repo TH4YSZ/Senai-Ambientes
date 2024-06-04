@@ -7,81 +7,94 @@ LOGIN
 
 {% block body %}
 
-<style>
-    .form-group {
-        width: 100%;
-        margin-bottom: 1rem;
-    }
+    <style>
 
-    .form-group label {
-        width: 100%;
-    }
+        .parallax {
+            background-image: url(../../static/img/Background.jpg);
+            height: 100vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .form-group input {
-        width: 100%;
-        padding: 0.375rem 0.75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #000000;
-        border-radius: 0.25rem;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
+        .form-group {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
 
-    .bg-black {
-        color: #fff;
-        background-color: #000;
-        border: none;
-        padding: 0.5rem 1rem;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 0.25rem;
-        transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
+        .form-group label {
+            width: 100%;
+        }
 
-    .bg-black:hover {
-        background-color: #333;
-    }
-</style>
+        .form-group input {
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #000000;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
 
-<div>
+        .bg-black {
+            color: #fff;
+            background-color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
 
-    <div class="flex container pb-5 m-5" style="display: flex; flex-direction: row; justify-content: center;">
-    <div class="col-lg-6">
-        {% for item in dados_senai %}
-        <h2 style="font-size: 35px; font-weight: 600; color: #000000;" class="text-center mt-2 mb-4 p-2">
-            {{item.titulo}}
-        </h2>
-        {% endfor %}
-        <div class="p-4 mb-5 border border-danger rounded-4">
-            <h2 class="text-center text-black pb-2">Entrar</h2>
-            <form action="{% url 'homepage' %}" method="post" class="p-4">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Nome</label>
-                    {{form.username}}
-                </div>
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    {{form.password}}
-                </div>
-                <div>
-                    {% if messages %}
-                    {% for mensagem in messages %}
-                    <div class="mt-2 alert alert-warning" role="alert">
-                        {{ mensagem }}
+        .bg-black:hover {
+            background-color: #333;
+        }
+        
+    </style>
+
+    <div class="parallax" >
+        <div class="flex container pb-5 m-5" style="display: flex; flex-direction: row; justify-content: center;">
+        <div class="col-lg-6">
+            {% for item in dados_senai %}
+            <h2 style="font-size: 35px; font-weight: 600;" class="text-center text-white mt-2 mb-4 p-2">
+                {{item.titulo}}
+            </h2>
+            {% endfor %}
+            <div class="p-4 mb-5 border border-danger rounded-4" style="background-color: rgb(255, 255, 255)">
+                <h2 class="text-center text-black pb-2">Entrar</h2>
+                <form action="{% url 'homepage' %}" method="post" class="p-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Nome</label>
+                        {{form.username}}
                     </div>
-                    {% endfor %}
-                    {% endif %}
-                </div>
-                <button type="submit" class="bg-black">Entrar</button>
-            </form>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        {{form.password}}
+                    </div>
+                    <div>
+                        {% if messages %}
+                        {% for mensagem in messages %}
+                        <div class="mt-2 alert alert-warning" role="alert">
+                            {{ mensagem }}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="bg-black">Entrar</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-</div>
+    </div>
 
 
 {% endblock %}
