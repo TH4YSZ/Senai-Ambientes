@@ -19,6 +19,7 @@ CADASTRO
     .content {
         text-align: center;
         margin: 48px;
+        width: 100%;
     }
 
     .form-container {
@@ -27,6 +28,7 @@ CADASTRO
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
+        width: 100%;  
         margin: 0 auto;
         border: 1px solid #000;
     }
@@ -37,7 +39,7 @@ CADASTRO
     }
 
     .form-container .form-control {
-        width: 100%;
+        width: 100%;  
         border: 1px solid #000;
     }
 
@@ -48,7 +50,7 @@ CADASTRO
     .form-container .btn-primary {
         background-color: #000;
         border: none;
-        width: 100%;
+        width: 100%;  
     }
 
     .form-container .btn-primary:hover {
@@ -58,42 +60,51 @@ CADASTRO
     .form-container label {
         color: #000;
     }
-</style>
 
-<div class="content">
-    {% if messages %}
-    {% for mensagem in messages %}
-    <div class="mt-2 alert alert-success" role="alert">
-        {{ mensagem }}
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% for item in dados_senai %}
-    <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
-    {% endfor %}
-    <div class="form-container mt-4 mb-4">
-        <h3>Cadastro</h3>
-        <form method="post" class="mt-4">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_nome">Nome</label>
-                {{ form.nome }}
-            </div>
-            <div class="form-group">
-                <label for="id_sobrenome">Sobrenome</label>
-                {{ form.sobrenome }}
-            </div>
-            <div class="form-group">
-                <label for="id_username">Nome de Usuário</label>
-                {{ form.username }}
-            </div>
-            <div class="form-group">
-                <label for="id_senha">Senha</label>
-                {{ form.senha }}
-            </div>
-            <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
-        </form>
+    .parallaxCad {
+        background: url('../../static/img/bg%20cad.jpg') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        align-items: center;  
+        justify-content: center;  
+        height: 100vh; 
+        background-color: rgba(255, 0, 0, 0.121);
+        padding: 20px;  
+        box-sizing: border-box;  
+    }
+</style>
+<div class="parallaxCad">
+    <div class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% for item in dados_senai %}
+        {% endfor %}
+        <div class="form-container mt-4 mb-4">
+            <h3>Cadastro</h3>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_nome">Nome</label>
+                    {{ form.nome }}
+                </div>
+                <div class="form-group">
+                    <label for="id_sobrenome">Sobrenome</label>
+                    {{ form.sobrenome }}
+                </div>
+                <div class="form-group">
+                    <label for="id_username">Nome de Usuário</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    <label for="id_senha">Senha</label>
+                    {{ form.senha }}
+                </div>
+                <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Cadastre-se</button>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}

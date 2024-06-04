@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Ambientes Senai 
+Ambientes Senai
 {% endblock %}
 
 {% block head %}
@@ -21,13 +21,14 @@
         width: 230px;
         border-radius: 20px;
         background: #fafafa;
-        box-shadow: 5px 5px 6px #dadada;
         transition: 0.4s;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
         margin: 20px 0;
+        border: 1px solid rgb(128, 128, 128);
+
     }
 
     .card:hover {
@@ -69,32 +70,38 @@
         background-attachment: fixed;
         background-color: rgba(255, 0, 0, 0.121);
         background-blend-mode: color;
-
     }
-
 </style>
 {% endblock %}
 
 {% block body %}
+
+{% if messages %}
+{% for mensagem in messages %}
+<div class="m-0 alert alert-warning" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+
 <div class="parallax2">
     <div class="card-container">
         {% for item in dados_ambiente %}
-            <div class="card" id="sala">
-                <!--<div class="card-image">
-                    <img src="{{item.foto.url}}" alt="salas" style="width: 100%;">
-                </div>-->
-                <h4 class="card-title">{{item.titulo}}</h4>
-                <p class="card-body">{{item.descricao}}</p>  
-                <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>      
-                <div style="display: flex; flex-direction: row; justify-content: space-around;">        
-                    <form method="POST" action="{% url 'excluir_ambiente' item.id %}" onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
-                        {% csrf_token %}
-                        <button type="submit" class="btn text-danger btn-lg">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-                    </form>
-                </div>
+        <div class="card" id="sala">
+            <h3 class="card-title">{{item.titulo}}</h3>
+            <p class="card-body">Lotação: {{item.descricao}}</p>
+            <p class="card-text">Sala: {{item.sala}}</p>
+            <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>
+            <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                <form method="POST" action="{% url 'excluir_ambiente' item.id %}"
+                    onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn text-danger btn-lg">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                </form>
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>

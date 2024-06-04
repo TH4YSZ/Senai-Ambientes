@@ -40,19 +40,19 @@ class Reserva(models.Model):
     username = models.CharField(max_length=20)
 
     def clean(self):
-        # Validate that there is no overlapping reservation
+
         overlapping_reservations = Reserva.objects.filter(
             sala=self.sala,
             data=self.data,
             horario__lt=self.hora_final,
             hora_final__gt=self.horario
-        ).exclude(pk=self.pk)  # Exclude self in case of update
+        ).exclude(pk=self.pk)  
 
         if overlapping_reservations.exists():
             raise ValidationError("Já existe uma reserva para este ambiente neste período de tempo.")
 
     def save(self, *args, **kwargs):
-        self.clean()  # Validate before saving
+        self.clean()
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.db import IntegrityError
 
 from django.shortcuts import redirect, get_object_or_404
 
@@ -50,27 +51,35 @@ def cadastro(request):
             var_username = form.cleaned_data['username']
             var_senha = form.cleaned_data['senha']
 
-            user = User.objects.create_user(username=var_username, password=var_senha)
+            try:
+                user = User.objects.create_user(username=var_username, password=var_senha)
+                user.first_name = var_nome
+                user.last_name = var_sobrenome
+                user.save()
 
-            user.first_name = var_nome
-            user.last_name = var_sobrenome
-            user.save()
+                # Adiciona o usuário ao grupo de professores
+                professor_group = Group.objects.get(name='Professores')
+                user.groups.add(professor_group)
 
-            # Adiciona o usuário ao grupo de professores
-            professor_group = Group.objects.get(name='Professores')
-            user.groups.add(professor_group)
-
-            # Cria o perfil do usuário personalizado
-            Usuario.objects.create(
-                nome=var_nome,
-                sobrenome=var_sobrenome,
-                username=var_username,
-                senha=var_senha,
-                cargo="PROFESSOR"
-            )
-            messages.success(request, "Usuário cadastrado.")
-            return redirect("cadastro")
-        
+                # Cria o perfil do usuário personalizado
+                Usuario.objects.create(
+                    nome=var_nome,
+                    sobrenome=var_sobrenome,
+                    username=var_username,
+                    senha=var_senha,
+                    cargo="PROFESSOR"
+                )
+                messages.success(request, "Usuário cadastrado.")
+                return redirect("cadastro")
+            except IntegrityError:
+                messages.error(request, "Nome de usuário já existe. Por favor, escolha outro nome de usuário.")
+                # Re-renderizar o formulário com dados existentes
+                context.update({"form": form})
+                return render(request, 'cadastro.html', context)
+        else:
+            # Se o formulário não for válido, re-renderize a página com erros do formulário
+            context.update({"form": form})
+            return render(request, 'cadastro.html', context)
     else:
         form = FormCadastro()
 
@@ -84,7 +93,6 @@ def cadastro(request):
 
     context.update({"form": form})
     return render(request, 'cadastro.html', context)
-
 
 @login_required
 def ambientes(request):
@@ -102,6 +110,14 @@ def ambientes(request):
         context['is_professores'] = False
 
     return render(request, 'ambientes.html', context)
+
+@login_required
+def excluir_ambiente(request, id):
+    ambiente = get_object_or_404(Ambiente, id=id)
+    if request.method == 'POST':
+        ambiente.delete()
+        return redirect('ambientes')
+    return redirect('ambientes')    
 
 @login_required
 def reservas(request, id):
@@ -175,13 +191,7 @@ def excluir_reserva(request, id):
         return redirect('minhas_reservas')
     return redirect('minhas_reservas')
 
-@login_required
-def excluir_ambiente(request, id):
-    ambiente = get_object_or_404(Ambiente, id=id)
-    if request.method == 'POST':
-        ambiente.delete()
-        return redirect('ambientes')
-    return redirect('ambientes')    
+
 
 
 @login_required
@@ -189,6 +199,11 @@ def cad_ambiente(request):
     context = {}
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
+
+    # Verifica se o usuário pertence ao grupo Coordenação
+    if not request.user.groups.filter(name='Coordenação').exists():
+        messages.error(request, "Você não tem permissão para acessar esta página.")
+        return redirect("homepage")
 
     if request.method == "POST":
         form = FormAmbiente(request.POST)
@@ -221,3 +236,26 @@ def cad_ambiente(request):
 
     context.update({"form": form})
     return render(request, 'New_Ambiente.html', context)
+
+@login_required
+def todas_reservas(request):
+    context = {}
+    dados_senai = Senai.objects.all()
+    reservas = Reserva.objects.all()
+    context["dados_senai"] = dados_senai
+    context["reservas"] = reservas
+
+    # Verifica se o usuário pertence ao grupo Coordenação
+    if not request.user.groups.filter(name='Coordenação').exists():
+        messages.error(request, "Você não tem permissão para acessar esta página.")
+        return redirect("homepage")
+
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
+
+    return render(request, 'todas_reservas.html', context)
+
