@@ -21,7 +21,7 @@ body {
 
 
 .footer{
-    display: flex; 
+    display: flex;
     justify-content: center; 
     padding: 20px;
     color: #fff; 
@@ -73,7 +73,7 @@ input[type="text"],
     font-size: 30px;
     color: white;
     font-weight: bold;
-     letter-spacing: 5px;
+    letter-spacing: 5px;
 }
 .navbar-brand:hover {
     color: white;

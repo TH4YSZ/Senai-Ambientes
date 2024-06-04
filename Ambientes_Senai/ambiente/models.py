@@ -28,11 +28,17 @@ class Usuario(models.Model):
     def __str__(self):
         return self.nome
 
+def default_hora_final():
+    return Reserva.horario.default
+
 class Reserva(models.Model):
     data = models.DateField()
     horario = models.TimeField()
+    hora_final = models.TimeField(default=default_hora_final)
+
     sala = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
     username = models.CharField(max_length=20)
 
     def __str__(self):
         return f"{self.username} - {self.data} - {self.horario}"
+

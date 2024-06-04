@@ -33,4 +33,7 @@ class FormCadastro(forms.Form):
 
 class FormReserva(forms.Form):
     data = forms.DateField(label='Data', widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
-    horario = forms.TimeField(label='Horario', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
+    horario = forms.TimeField(label='Horario_Inicial', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
+    hora_final = forms.TimeField(label='Horario_Final', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
+
+

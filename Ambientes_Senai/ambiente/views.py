@@ -4,11 +4,12 @@ from django.urls import reverse
 from .models import *
 from .forms import *
 
+from django.contrib.auth.models import User
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.models import Group
 
 
 def homepage(request):
@@ -50,6 +51,9 @@ def cadastro(request):
             var_senha = form.cleaned_data['senha']
 
             user = User.objects.create_user(username=var_username, password=var_senha)
+
+
+
             user.first_name = var_nome
             user.last_name = var_sobrenome
             user.save()
@@ -66,8 +70,9 @@ def cadastro(request):
                 senha=var_senha,
                 cargo="PROFESSOR"
             )
-
+            messages.success(request, "Usuário cadastrado.")
             return redirect("cadastro")
+        
     else:
         form = FormCadastro()
 
@@ -120,8 +125,9 @@ def reservas(request, id):
             var_username = request.user.username  
             var_data = form.cleaned_data['data']
             var_hora = form.cleaned_data['horario']
+            var_horafinal = form.cleaned_data['hora_final']
 
-            reserva = Reserva(username=var_username, data=var_data, horario=var_hora, sala=id_ambiente)
+            reserva = Reserva(username=var_username, data=var_data, horario=var_hora, hora_final=var_horafinal ,sala=id_ambiente)
             reserva.save()
 
             return redirect("ambientes")
@@ -150,3 +156,14 @@ def minhas_reservas(request):
 
     return render(request, 'minhas_reservas.html', context)
 
+from django.shortcuts import redirect, get_object_or_404
+from .models import Reserva
+
+
+@login_required
+def excluir_reserva(request, id):
+    reserva = get_object_or_404(Reserva, id=id, username=request.user.username)
+    if request.method == 'POST':
+        reserva.delete()
+        return redirect('minhas_reservas')
+    return redirect('minhas_reservas')

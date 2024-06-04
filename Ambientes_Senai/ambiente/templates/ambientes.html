@@ -56,7 +56,7 @@
     text-align: center;
     padding: 10px;
     overflow-y: auto; 
-    max-height: 200px; 
+    max-height: 250px; 
   }
 
   .parallax2 {
@@ -78,59 +78,20 @@
 <div class="parallax2">
   <div class="card-container">
     {% for item in dados_ambiente %}
-      <div class="card">
-        <!-- <div class="card-image">
+      <div class="card" id="sala">
+        <!--<div class="card-image">
           <img src="{{item.foto.url}}" alt="salas" style="width: 100%;">
-        </div> -->
+        </div>-->
         <h4 class="card-title">{{item.titulo}}</h4>
-        <p class="card-body">{{item.descricao}}</p>
-        <button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#modal{{ item.id }}">
-          Reservar
-        </button>
-      </div>
-
-      <!-- Modal -->
-      <div class="modal fade" id="modal{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ item.id }}" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel{{ item.id }}">Reservar</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <h2 style="font-size: 20px; font-weight: 600;">{{ item.titulo }}</h2>
-              <div class="form-container mt-4 mb-4 border-0 shadow-none">
-                <form method="post" class="mt-4">
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <label for="id_data">Data</label>
-                    {{ form.data }}
-                  </div>
-                  <div class="form-group">
-                    <label for="id_horario">Horário</label>
-                    {{ form.horario }}
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-danger">Reservar</button>
-            </div>
-          </div>
+        <p class="card-body">{{item.descricao}}</p>  
+          <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>      
+        <div style="display: flex;flex-direction: row;justify-content: space-around;">        
+          <a type="button" class="btn btn-lg"><i class="bi bi-pencil-fill"></i></a>
+          <a type="button" class="btn text-danger btn-lg" id="{{item.id}}" href="http://127.0.0.1:8000/api/ambiente/{{item.id}}" onclick="return confirm('Tem certeza que deseja excluir este ambiente?');">
+          <i class="bi bi-trash3-fill"></i></a>
         </div>
       </div>
     {% endfor %}
   </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        flatpickr("[name='data']", {
-            inline: true,
-            dateFormat: "Y-m-d" // Formato da data
-        });
-    });
-</script>
 {% endblock %}

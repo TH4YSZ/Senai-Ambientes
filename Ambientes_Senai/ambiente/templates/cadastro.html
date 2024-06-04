@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    CADASTRO
+CADASTRO
 {% endblock %}
 
 {% block body %}
@@ -28,42 +28,48 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         margin: 0 auto;
-        border: 1px solid #000; 
+        border: 1px solid #000;
     }
 
     .form-container .form-group {
         margin-bottom: 1rem;
-        text-align: left; 
+        text-align: left;
     }
 
     .form-container .form-control {
-        width: 100%; 
-        border: 1px solid #000; 
+        width: 100%;
+        border: 1px solid #000;
     }
 
     .form-container .form-control::placeholder {
-        color: #aaa; 
+        color: #aaa;
     }
 
     .form-container .btn-primary {
-        background-color: #000; 
+        background-color: #000;
         border: none;
         width: 100%;
     }
 
     .form-container .btn-primary:hover {
-        background-color: #333; 
+        background-color: #333;
     }
 
     .form-container label {
-        color: #000; 
+        color: #000;
     }
-
 </style>
 
 <div class="content">
+    {% if messages %}
+    {% for mensagem in messages %}
+    <div class="mt-2 alert alert-success" role="alert">
+        {{ mensagem }}
+    </div>
+    {% endfor %}
+    {% endif %}
     {% for item in dados_senai %}
-        <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
+    <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
     {% endfor %}
     <div class="form-container mt-4 mb-4">
         <h3>Cadastro</h3>

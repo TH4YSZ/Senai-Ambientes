@@ -46,14 +46,12 @@ LOGIN
     }
 </style>
 
+<div>
 
-
-
-
-<div class="flex container pb-5 m-5" style="display: flex; flex-direction: row; justify-content: space-around;">
+    <div class="flex container pb-5 m-5" style="display: flex; flex-direction: row; justify-content: center;">
     <div class="col-lg-6">
         {% for item in dados_senai %}
-        <h2 style="font-size: 35px; font-weight: 600; color: #000000;" class="text-center mt-4 mb-4 p-2">
+        <h2 style="font-size: 35px; font-weight: 600; color: #000000;" class="text-center mt-2 mb-4 p-2">
             {{item.titulo}}
         </h2>
         {% endfor %}
@@ -82,12 +80,8 @@ LOGIN
             </form>
         </div>
     </div>
-    <figure>
-        <img src="{% static '/img/trabalho_vetor.jpg' %}" alt="Imagem" style="max-width: 400px; margin-top: 150px;">
-        <figcaption style="font-size: 7px; color: #495057">Imagem distribuída por Freepik</figcaption>
-    </figure>
 </div>
-
+</div>
 
 
 {% endblock %}

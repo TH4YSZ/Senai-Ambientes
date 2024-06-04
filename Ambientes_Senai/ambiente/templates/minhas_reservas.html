@@ -6,6 +6,24 @@
 
 {% block head %}
 <style>
+    .content {
+        height: 400px;
+    }
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px; /* Espaçamento entre os botões */
+    }
+    .button-container button {
+        background-color: white;
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 5px;
+    }
+    .button-container button.remove {
+        background-color: red;
+        color: white;
+    }
 </style>
 {% endblock %}
 
@@ -16,12 +34,19 @@
         {% if reservas %}
             <ul class="list-group">
                 {% for reserva in reservas %}
-                    <li class="list-group-item" style="text-align: justify;">
-                        <button style="background-color: white;" class="border border-1 rounded rounded-3 p-1">Editar</button>
-                        <button style="background-color: red;" class="border border-1 rounded rounded-3 p-1">Remover</button>
-                        <strong>Data:</strong> {{ reserva.data }} <br>
-                        <strong>Horário:</strong> {{ reserva.horario }} <br>
-                        <strong>Sala:</strong> {{ reserva.sala.titulo }}
+                    <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center; flex-direction: row-reverse;">
+                        <div class="button-container">
+                            <button class="edit">Editar</button>
+                            <form method="POST" action="{% url 'excluir_reserva' reserva.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="remove">Remover</button>
+                            </form>
+                        </div>
+                        <div style="text-align: justify;">
+                            <strong>Data:</strong> {{ reserva.data }} <br>
+                            <strong>Horário:</strong> {{ reserva.horario }} <br>
+                            <strong>Sala:</strong> {{ reserva.sala.titulo }}
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
