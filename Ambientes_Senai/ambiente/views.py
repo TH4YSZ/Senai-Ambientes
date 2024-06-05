@@ -43,6 +43,10 @@ def cadastro(request):
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
 
+    if not request.user.groups.filter(name='Coordenação').exists():
+        messages.error(request, "Você não tem permissão para acessar esta página.")
+        return redirect("homepage")
+
     if request.method == "POST":
         form = FormCadastro(request.POST)
         if form.is_valid():
@@ -113,6 +117,10 @@ def ambientes(request):
 
 @login_required
 def excluir_ambiente(request, id):
+    if not request.user.groups.filter(name='Coordenação').exists():
+        messages.error(request, "Você não tem permissão para acessar esta página.")
+        return redirect("homepage")
+
     ambiente = get_object_or_404(Ambiente, id=id)
     if request.method == 'POST':
         ambiente.delete()
@@ -185,6 +193,10 @@ def minhas_reservas(request):
 
 @login_required
 def excluir_reserva(request, id):
+    if not request.user.groups.filter(name='Coordenação').exists():
+            messages.error(request, "Você não tem permissão para acessar esta página.")
+            return redirect("homepage")
+
     reserva = get_object_or_404(Reserva, id=id, username=request.user.username)
     if request.method == 'POST':
         reserva.delete()
