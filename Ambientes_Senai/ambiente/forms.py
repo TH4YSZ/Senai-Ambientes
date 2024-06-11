@@ -40,3 +40,6 @@ class FormAmbiente(forms.Form):
     titulo = forms.CharField(max_length=50)
     descricao = forms.CharField(max_length=300)
     sala = forms.CharField(max_length=50)
+
+class FormPesquisa(forms.Form):
+    pesquisa = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Pesquisar', 'class': 'form-control'})) #Campo de pesquisa para buscar ambientes

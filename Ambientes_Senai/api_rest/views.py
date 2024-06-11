@@ -3,6 +3,19 @@ from rest_framework.response import Response
 from rest_framework import status
 from ambiente.models import *
 from .serializers import *
+from rest_framework_simplejwt.tokens import UntypedToken
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+
+@api_view(['POST'])
+def verify_token(request):
+    token = request.data.get('token')
+    
+    try:
+        UntypedToken(token)
+    except (InvalidToken, TokenError) as e:
+        return Response({'detail': 'Invalid token'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    return Response({'detail': 'Valid token'}, status=status.HTTP_200_OK)
 
 # SENAI
 @api_view(['GET'])

@@ -63,6 +63,13 @@
     <h2 class="reservation-header">Minhas Reservas</h2>
     <div class="reservations-container mt-4 mb-4">
         {% if reservas %}
+            {% if messages %}
+            {% for mensagem in messages %}
+            <div class="mt-2 alert alert-success" role="alert">
+                {{ mensagem }}
+            </div>
+            {% endfor %}
+            {% endif %}
             <ul class="list-group">
                 {% for reserva in reservas %}
                     <li class="list-group-item">

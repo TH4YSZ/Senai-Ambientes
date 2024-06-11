@@ -102,9 +102,17 @@ def cadastro(request):
 def ambientes(request):
     context = {}
     dados_senai = Senai.objects.all()
-    dados_ambiente = Ambiente.objects.all()
+    
+    # Inicialize a pesquisa com GET
+    search_query = request.GET.get('search', '')
+    if search_query:
+        dados_ambiente = Ambiente.objects.filter(titulo__icontains=search_query)
+    else:
+        dados_ambiente = Ambiente.objects.all()
+    
     context["dados_senai"] = dados_senai
     context["dados_ambiente"] = dados_ambiente
+    context["form"] = FormPesquisa()
 
     if request.user.is_authenticated:
         context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
@@ -114,6 +122,7 @@ def ambientes(request):
         context['is_professores'] = False
 
     return render(request, 'ambientes.html', context)
+
 
 @login_required
 def excluir_ambiente(request, id):
@@ -163,8 +172,8 @@ def reservas(request, id):
 
             reserva = Reserva(username=var_username, data=var_data, horario=var_hora, hora_final=var_horafinal, sala=id_ambiente)
             reserva.save()
-
-            return redirect("ambientes")
+            # messages.success(request, "Ambiente reservado com sucesso.")
+            return redirect("reservas")
         else:
             return redirect(reverse('reservas', args=[id]))
     else:
@@ -202,8 +211,6 @@ def excluir_reserva(request, id):
         reserva.delete()
         return redirect('minhas_reservas')
     return redirect('minhas_reservas')
-
-
 
 
 @login_required

@@ -28,7 +28,6 @@ Ambientes Senai
         justify-content: space-between;
         margin: 20px 0;
         border: 1px solid rgb(128, 128, 128);
-
     }
 
     .card:hover {
@@ -85,24 +84,32 @@ Ambientes Senai
 {% endif %}
 
 <div class="parallax2">
-    <div class="card-container">
-        {% for item in dados_ambiente %}
-        <div class="card" id="sala">
-            <h3 class="card-title">{{item.titulo}}</h3>
-            <p class="card-body">Lotação: {{item.descricao}}</p>
-            <p class="card-text">Sala: {{item.sala}}</p>
-            <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>
-            <div style="display: flex; flex-direction: row; justify-content: space-around;">
-                <form method="POST" action="{% url 'excluir_ambiente' item.id %}"
-                    onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
-                    {% csrf_token %}
-                    <button type="submit" class="btn text-danger btn-lg">
-                        <i class="bi bi-trash3-fill"></i>
-                    </button>
-                </form>
-            </div>
+    <div>
+        <div class="" style="max-width: 250px; align-items: ;">
+            <form method="GET" action="{% url 'ambientes' %}">
+                <input type="text" name="search" placeholder="Buscar pelo nome da sala" value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
         </div>
-        {% endfor %}
+        <div class="card-container">
+            {% for item in dados_ambiente %}
+            <div class="card" id="sala">
+                <h3 class="card-title">{{item.titulo}}</h3>
+                <p class="card-body">Lotação: {{item.descricao}}</p>
+                <p class="card-text">Sala: {{item.sala}}</p>
+                <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>
+                <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                    <form method="POST" action="{% url 'excluir_ambiente' item.id %}"
+                        onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn text-danger btn-lg">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
