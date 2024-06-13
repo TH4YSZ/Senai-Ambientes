@@ -129,3 +129,4 @@ def reservas_detail(request, id):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
