@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    Editar Ambiente
+Cadastrar Ambiente
 {% endblock %}
 
 {% block head %}
@@ -38,7 +38,7 @@
     }
 
     .form-container .form-control {
-        width: 100%;  
+        width: 100%;
         border: 1px solid #000;
     }
 
@@ -49,7 +49,7 @@
     .form-container .btn-primary {
         background-color: #000;
         border: none;
-        width: 100%;  
+        width: 100%;
     }
 
     .form-container .btn-primary:hover {
@@ -64,35 +64,37 @@
         background: url('../../static/img/bg%20cad.jpg') no-repeat center center;
         background-size: cover;
         display: flex;
-        align-items: center;  
-        justify-content: center;  
-        height: 100vh;  
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
         background-color: rgba(255, 0, 0, 0.121);
-        padding: 20px;  
-        box-sizing: border-box;  
+        padding: 20px;
+        box-sizing: border-box;
     }
-
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="parallaxAmb">
     <div class="content">
-        {% if messages %}
+
         {% for mensagem in messages %}
+        {% if "erro" in message.tags %}
         <div class="mt-2 alert alert-error" role="alert">
             {{ mensagem }}
         </div>
-        {% endfor %}
         {% endif %}
+        {% endfor %}
 
-        {% if messages %}
         {% for mensagem in messages %}
+        {% if "sucesso" in message.tags %}
         <div class="mt-2 alert alert-success" role="alert">
             {{ mensagem }}
         </div>
-        {% endfor %}
         {% endif %}
+        {% endfor %}
+        
+
         <div class="form-container mt-4 mb-4">
             <h3>Criar Ambiente</h3>
             <form method="post" class="mt-4">

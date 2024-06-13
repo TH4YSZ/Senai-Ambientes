@@ -77,11 +77,11 @@ def cadastro(request):
                 return redirect("cadastro")
             except IntegrityError:
                 messages.error(request, "Nome de usuário já existe. Por favor, escolha outro nome de usuário.")
-                # Re-renderizar o formulário com dados existentes
+                # Renderizar o formulário com dados existentes
                 context.update({"form": form})
                 return render(request, 'cadastro.html', context)
         else:
-            # Se o formulário não for válido, re-renderize a página com erros do formulário
+            # Se o formulário não for válido, renderize a página com erros do formulário
             context.update({"form": form})
             return render(request, 'cadastro.html', context)
     else:
@@ -168,12 +168,12 @@ def reservas(request, id):
 
             if reserva_existente:
                 messages.error(request, "Já existe uma reserva para este ambiente no horário selecionado.")
-                return redirect(reverse('reservas', args=[id]))
+                return redirect(reverse('ambientes', args=[id]))
 
             reserva = Reserva(username=var_username, data=var_data, horario=var_hora, hora_final=var_horafinal, sala=id_ambiente)
             reserva.save()
-            # messages.success(request, "Ambiente reservado com sucesso.")
-            return redirect("reservas")
+            messages.success(request, "Ambiente reservado com sucesso.")
+            return redirect("ambientes")
         else:
             return redirect(reverse('reservas', args=[id]))
     else:
@@ -199,62 +199,22 @@ def minhas_reservas(request):
 
     return render(request, 'minhas_reservas.html', context)
 
-
 @login_required
 def excluir_reserva(request, id):
-    if not request.user.groups.filter(name='Coordenação').exists():
-            messages.error(request, "Você não tem permissão para acessar esta página.")
-            return redirect("homepage")
-
-    reserva = get_object_or_404(Reserva, id=id, username=request.user.username)
-    if request.method == 'POST':
-        reserva.delete()
-        return redirect('minhas_reservas')
-    return redirect('minhas_reservas')
-
-
-@login_required
-def cad_ambiente(request):
-    context = {}
-    dados_senai = Senai.objects.all()
-    context["dados_senai"] = dados_senai
-
-    # Verifica se o usuário pertence ao grupo Coordenação
     if not request.user.groups.filter(name='Coordenação').exists():
         messages.error(request, "Você não tem permissão para acessar esta página.")
         return redirect("homepage")
 
-    if request.method == "POST":
-        form = FormAmbiente(request.POST)
-        if form.is_valid():
-            var_titulo = form.cleaned_data['titulo']
-            var_descricao = form.cleaned_data['descricao']
-            var_sala = form.cleaned_data['sala']
-        
+    reserva = get_object_or_404(Reserva, id=id)
+    
+    if request.method == 'POST':
+        reserva.delete()
+        messages.success(request, "Reserva excluída com sucesso.")
+        return redirect('ambientes')
+    
+    # Exibe uma página de confirmação antes de excluir a reserva
+    return render(request, 'confirmar_exclusao.html', {'reserva': reserva})
 
-            # Cria o novo ambiente 
-            Ambiente.objects.create(
-                titulo=var_titulo,
-                descricao=var_descricao,
-                sala=var_sala
-            )
-
-            messages.success(request, "Ambiente criado.")
-            return redirect("cad_ambiente")
-        
-    else:
-        form = FormAmbiente()
-
-    # Definindo as variáveis de permissão no contexto
-    if request.user.is_authenticated:
-        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
-        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
-    else:
-        context['is_coordenacao'] = False
-        context['is_professores'] = False
-
-    context.update({"form": form})
-    return render(request, 'New_Ambiente.html', context)
 
 @login_required
 def todas_reservas(request):
@@ -277,4 +237,50 @@ def todas_reservas(request):
         context['is_professores'] = False
 
     return render(request, 'todas_reservas.html', context)
+
+
+@login_required
+def cad_ambiente(request):
+    context = {}
+    dados_senai = Senai.objects.all()
+    context["dados_senai"] = dados_senai
+
+    # Verifica se o usuário pertence ao grupo Coordenação
+    if not request.user.groups.filter(name='Coordenação').exists():
+        messages.error(request, "Você não tem permissão para acessar esta página.", extra_tags="erro")
+        return redirect("homepage")
+
+    if request.method == "POST":
+        form = FormAmbiente(request.POST)
+        if form.is_valid():
+            var_titulo = form.cleaned_data['titulo']
+            var_descricao = form.cleaned_data['descricao']
+            var_sala = form.cleaned_data['sala']
+        
+
+            # Cria o novo ambiente 
+            Ambiente.objects.create(
+                titulo=var_titulo,
+                descricao=var_descricao,
+                sala=var_sala
+            )
+
+            messages.success(request, "Ambiente criado!", extra_tags="sucesso")
+            return redirect("ambientes")
+        
+    else:
+        form = FormAmbiente()
+
+    # Definindo as variáveis de permissão no contexto
+    if request.user.is_authenticated:
+        context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
+        context['is_professores'] = request.user.groups.filter(name='Professores').exists()
+    else:
+        context['is_coordenacao'] = False
+        context['is_professores'] = False
+
+    context.update({"form": form})
+    return render(request, 'New_Ambiente.html', context)
+
+
 

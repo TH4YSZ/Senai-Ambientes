@@ -28,7 +28,7 @@ CADASTRO
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
-        width: 100%;  
+        width: 100%;
         margin: 0 auto;
         border: 1px solid #000;
     }
@@ -39,7 +39,7 @@ CADASTRO
     }
 
     .form-container .form-control {
-        width: 100%;  
+        width: 100%;
         border: 1px solid #000;
     }
 
@@ -50,7 +50,7 @@ CADASTRO
     .form-container .btn-primary {
         background-color: #000;
         border: none;
-        width: 100%;  
+        width: 100%;
     }
 
     .form-container .btn-primary:hover {
@@ -65,21 +65,21 @@ CADASTRO
         background: url('../../static/img/bg%20cad.jpg') no-repeat center center;
         background-size: cover;
         display: flex;
-        align-items: center;  
-        justify-content: center;  
-        height: 100vh; 
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
         background-color: rgba(255, 0, 0, 0.121);
-        padding: 20px;  
-        box-sizing: border-box;  
+        padding: 20px;
+        box-sizing: border-box;
     }
 </style>
 <div class="parallaxCad">
     <div class="content">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-danger">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
         {% for item in dados_senai %}
         {% endfor %}
         <div class="form-container mt-4 mb-4">

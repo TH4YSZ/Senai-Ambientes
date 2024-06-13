@@ -18,7 +18,7 @@ Ambientes Senai
 
     .card {
         padding: 20px;
-        width: 230px;
+        width: 240px;
         border-radius: 20px;
         background: #fafafa;
         transition: 0.4s;
@@ -28,10 +28,14 @@ Ambientes Senai
         justify-content: space-between;
         margin: 20px 0;
         border: 1px solid rgb(128, 128, 128);
+        position: relative;
+        height: 260px;
+        transition: min-height 0.4s;
     }
 
     .card:hover {
         transform: translateY(-10px);
+        min-height: 300px;
     }
 
     .card-title {
@@ -53,8 +57,13 @@ Ambientes Senai
         color: rgb(31, 31, 31);
         font-size: 15px;
         text-align: center;
-        padding: 10px;
-        overflow-y: auto;
+        max-height: 250px;
+    }
+
+    .card-text {
+        color: rgb(31, 31, 31);
+        font-size: 15px;
+        text-align: center;
         max-height: 250px;
     }
 
@@ -69,6 +78,48 @@ Ambientes Senai
         background-attachment: fixed;
         background-color: rgba(255, 0, 0, 0.121);
         background-blend-mode: color;
+    }
+
+    .card .btn,
+    .card form {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.4s linear;
+    }
+
+    .card:hover .btn,
+    .card:hover form {
+        visibility: visible;
+        opacity: 1;
+    }
+    .course {
+            margin: 10px 0;
+            display: none; /* Inicialmente, os cursos estão ocultos */
+        }
+    #filter-icon {
+        cursor: pointer;
+        font-size: 24px;
+        margin-right: 10px;
+    }
+    #area {
+        display: none; /* Inicialmente, o select está oculto */
+    }
+    .filter-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .filter-container select, .filter-container form {
+        display: inline-block;
+    }
+    .filter-container form input {
+        max-width: 260px;
+    }
+    .filter-container form button {
+        max-width: 40px;
+        background-color: red;
     }
 </style>
 {% endblock %}
@@ -85,11 +136,22 @@ Ambientes Senai
 
 <div class="parallax2">
     <div>
-        <div class="" style="max-width: 250px; align-items: ;">
-            <form method="GET" action="{% url 'ambientes' %}">
-                <input type="text" name="search" placeholder="Buscar pelo nome da sala" value="{{ request.GET.search }}">
-                <button type="submit" class="btn btn-primary">Buscar</button>
-            </form>
+        <div style="display: flex;justify-content: center;" class="filter-container">
+            <div>
+                <i id="filter-icon" class="bi bi-filter" onclick="toggleSelect()"></i>
+                <select id="area" onchange="filterCourses()">
+                    <option value="">Selecione uma área</option>
+                    <option value="Engenharia">Engenharia</option>
+                    <option value="Saúde">Saúde</option>
+                    <option value="Humanas">Humanas</option>
+                </select>
+            </div>
+            <div> 
+                <form method="GET" action="{% url 'ambientes' %}">
+                    <input type="text" name="search" placeholder="Buscar pelo nome da sala" value="{{ request.GET.search }}" style="max-width: 260px;">
+                    <button type="submit" class="btn" style="max-width: 40px; background-color: red;"><i class="bi bi-search"></i></button>
+                </form>
+            </div>
         </div>
         <div class="card-container">
             {% for item in dados_ambiente %}
@@ -99,8 +161,7 @@ Ambientes Senai
                 <p class="card-text">Sala: {{item.sala}}</p>
                 <a type="button" href="reservas/{{item.id}}" class="btn btn-dark btn-lg">Reservar</a>
                 <div style="display: flex; flex-direction: row; justify-content: space-around;">
-                    <form method="POST" action="{% url 'excluir_ambiente' item.id %}"
-                        onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
+                    <form method="POST" action="{% url 'excluir_ambiente' item.id %} "onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
                         {% csrf_token %}
                         <button type="submit" class="btn text-danger btn-lg">
                             <i class="bi bi-trash3-fill"></i>
