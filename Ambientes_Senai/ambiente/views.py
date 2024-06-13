@@ -281,6 +281,3 @@ def cad_ambiente(request):
 
     context.update({"form": form})
     return render(request, 'New_Ambiente.html', context)
-
-
-

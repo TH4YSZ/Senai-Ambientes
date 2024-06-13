@@ -6,8 +6,6 @@ from .serializers import *
 from rest_framework_simplejwt.tokens import UntypedToken
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-
-
 # SENAI
 @api_view(['GET'])
 def senai(request):
