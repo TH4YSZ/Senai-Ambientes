@@ -26,10 +26,10 @@ Ambientes Senai
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        margin: 20px 0;
+        margin: 6px;
         border: 1px solid rgb(128, 128, 128);
         position: relative;
-        height: 240px;
+        height: 220px;
         transition: min-height 0.4s;
     }
 
@@ -92,14 +92,36 @@ Ambientes Senai
         visibility: visible;
         opacity: 1;
     }
-    #filter-icon {
+    .filter-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px;
+    }
+
+    .filter-container form {
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-container input[type="text"] {
+        width: 360px;
+        margin: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .filter-container button[type="submit"] {
+        max-width: 40px;
+        padding: 8px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 4px;
         cursor: pointer;
-        font-size: 24px;
-        margin-right: 10px;
     }
-    #area {
-        display: none; /* Inicialmente, o select está oculto */
-    }
+
 </style>
 {% endblock %}
 
@@ -113,24 +135,21 @@ Ambientes Senai
 {% endfor %}
 {% endif %}
 
+{% if messages %}
+{% for mensagem in messages %}
+<div class="m-0 alert alert-success" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+
 <div class="parallax2">
     <div>
-        <div style="display: flex;justify-content: center;" class="filter-container">
-            <div>
-                <i id="filter-icon" class="bi bi-filter" onclick="toggleSelect()"></i>
-                <select id="area" onchange="filterCourses()">
-                    <option value="">Selecione uma área</option>
-                    <option value="Engenharia">Engenharia</option>
-                    <option value="Saúde">Saúde</option>
-                    <option value="Humanas">Humanas</option>
-                </select>
-            </div>
-            <div> 
-                <form method="GET" action="{% url 'ambientes' %}">
-                    <input type="text" name="search" placeholder="Buscar pelo nome da sala" value="{{ request.GET.search }}" style="max-width: 260px;">
-                    <button type="submit" class="btn" style="max-width: 40px; background-color: red;"><i class="bi bi-search"></i></button>
-                </form>
-            </div>
+        <div class="filter-container">
+            <form method="GET" action="{% url 'ambientes' %}">
+                <input type="text" name="search" placeholder="Buscar pelo nome da sala" value="{{ request.GET.search }}" style="max-width: 300px;">
+                <button type="submit" class="btn" style="max-width: 40px; background-color: red;"><i class="bi bi-search"></i></button>
+            </form>
         </div>
         <div class="card-container">
             {% for item in dados_ambiente %}

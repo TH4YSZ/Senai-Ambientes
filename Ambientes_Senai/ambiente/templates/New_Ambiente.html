@@ -77,24 +77,6 @@ Cadastrar Ambiente
 {% block body %}
 <div class="parallaxAmb">
     <div class="content">
-
-        {% for mensagem in messages %}
-        {% if "erro" in message.tags %}
-        <div class="mt-2 alert alert-error" role="alert">
-            {{ mensagem }}
-        </div>
-        {% endif %}
-        {% endfor %}
-
-        {% for mensagem in messages %}
-        {% if "sucesso" in message.tags %}
-        <div class="mt-2 alert alert-success" role="alert">
-            {{ mensagem }}
-        </div>
-        {% endif %}
-        {% endfor %}
-        
-
         <div class="form-container mt-4 mb-4">
             <h3>Criar Ambiente</h3>
             <form method="post" class="mt-4">

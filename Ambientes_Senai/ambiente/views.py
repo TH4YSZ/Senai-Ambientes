@@ -247,7 +247,7 @@ def cad_ambiente(request):
 
     # Verifica se o usuário pertence ao grupo Coordenação
     if not request.user.groups.filter(name='Coordenação').exists():
-        messages.error(request, "Você não tem permissão para acessar esta página.", extra_tags="erro")
+        messages.error(request, "Você não tem permissão para acessar esta página.")
         return redirect("homepage")
 
     if request.method == "POST":
@@ -265,7 +265,7 @@ def cad_ambiente(request):
                 sala=var_sala
             )
 
-            messages.success(request, "Ambiente criado!", extra_tags="sucesso")
+            messages.success(request, "Ambiente criado!")
             return redirect("ambientes")
         
     else:
