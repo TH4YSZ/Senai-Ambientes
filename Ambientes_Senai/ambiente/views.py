@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
+from django.utils import timezone
+
 
 from django.shortcuts import redirect, get_object_or_404
 
@@ -141,7 +143,9 @@ def reservas(request, id):
     context = {}
     dados_senai = Senai.objects.all()
     context["dados_senai"] = dados_senai
-    id_ambiente = Ambiente.objects.filter(id=id).first()
+    id_ambiente = get_object_or_404(Ambiente, id=id)  #Existe para ter apenas um objeto ambiente
+    context["dados_ambiente"] = id_ambiente
+    context["id"] = id
 
     if request.user.is_authenticated:
         context['is_coordenacao'] = request.user.groups.filter(name='Coordenação').exists()
@@ -153,29 +157,48 @@ def reservas(request, id):
     if request.method == "POST":
         form = FormReserva(request.POST)
         if form.is_valid():
-            var_username = request.user.username  
+            var_username = request.user.username
             var_data = form.cleaned_data['data']
             var_hora = form.cleaned_data['horario']
             var_horafinal = form.cleaned_data['hora_final']
 
-            # Verificar se já existe uma reserva para o mesmo ambiente e horário
-            reserva_existente = Reserva.objects.filter(
-                sala=id_ambiente,
-                data=var_data,
-                horario__lt=var_horafinal,
-                hora_final__gt=var_hora
-            ).exists()
+            # Verificar se a data da reserva é no passado
+            if var_data < timezone.now().date():
+                messages.error(request, "Não é possível fazer uma reserva para uma data passada.")
+            # Verificar se o horário final é anterior ao horário inicial
+            elif var_horafinal <= var_hora:
+                messages.error(request, "O horário final deve ser posterior ao horário inicial.")
+            else:
+                # Verificar se já existe uma reserva para o mesmo ambiente e horário
+                reserva_existente = Reserva.objects.filter(
+                    sala=id_ambiente,  # Corrigido para usar o objeto único
+                    data=var_data,
+                    horario__lt=var_horafinal,
+                    hora_final__gt=var_hora
+                ).exists()
 
-            if reserva_existente:
-                messages.error(request, "Já existe uma reserva para este ambiente no horário selecionado.")
-                return redirect(reverse('ambientes', args=[id]))
+                if reserva_existente:
+                    messages.error(request, "Já existe uma reserva para este ambiente no horário selecionado.")
+                else:
+                    try:
+                        reserva = Reserva(
+                            username=var_username,
+                            data=var_data,
+                            horario=var_hora,
+                            hora_final=var_horafinal,
+                            sala=id_ambiente  # Corrigido para usar o objeto único
+                        )
+                        reserva.clean()  # Executar validações personalizadas antes de salvar
+                        reserva.save()
+                        messages.success(request, "Ambiente reservado com sucesso.")
+                        return redirect("ambientes")
+                    except ValidationError as e:
+                        for error in e.message_dict.values():
+                            messages.error(request, error)
 
-            reserva = Reserva(username=var_username, data=var_data, horario=var_hora, hora_final=var_horafinal, sala=id_ambiente)
-            reserva.save()
-            messages.success(request, "Ambiente reservado com sucesso.")
-            return redirect("ambientes")
         else:
-            return redirect(reverse('reservas', args=[id]))
+            for error in form.errors.values():
+                messages.error(request, error)
     else:
         form = FormReserva()
 

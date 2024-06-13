@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    RESERVAS
+RESERVAS
 {% endblock %}
 
 {% block body %}
@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
-
     .navbar {
         background-color: #d71921;
         padding: 1rem;
@@ -28,39 +27,48 @@
     .form-container {
         background: #fff;
         padding: 30px;
-        border-radius: 20px; /* Borda arredondada */
+        border-radius: 20px;
+        /* Borda arredondada */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         margin: 0 auto;
-        border: 1px solid #000; /* Borda preta */
+        border: 1px solid #000;
+        /* Borda preta */
     }
 
     .form-container .form-group {
         margin-bottom: 1rem;
-        text-align: left; /* Alinhamento à esquerda */
+        text-align: left;
+        /* Alinhamento à esquerda */
     }
 
     .form-container .form-control {
-        width: 100%; /* Tamanho máximo do input em 100% */
-        border: 1px solid #000; /* Borda preta */
+        width: 100%;
+        /* Tamanho máximo do input em 100% */
+        border: 1px solid #000;
+        /* Borda preta */
     }
 
     .form-container .form-control::placeholder {
-        color: #aaa; /* Cor do placeholder */
+        color: #aaa;
+        /* Cor do placeholder */
     }
 
     .form-container .btn-primary {
-        background-color: #000; /* Cor do botão */
+        background-color: #000;
+        /* Cor do botão */
         border: none;
         width: 100%;
     }
 
     .form-container .btn-primary:hover {
-        background-color: #333; /* Cor do botão ao passar o mouse */
+        background-color: #333;
+        /* Cor do botão ao passar o mouse */
     }
 
     .form-container label {
-        color: #000; /* Cor do texto do label */
+        color: #000;
+        /* Cor do texto do label */
     }
 
     .flatpickr-calendar {
@@ -69,27 +77,30 @@
     }
 
     .parallax2 {
-    background: url(../../static/img/engrenagens.jpg);
-    filter: brightness(85%);
-    width: 100%;
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: color;
-    display: flex;
-    background-attachment: fixed;
+        background: url(../../static/img/engrenagens.jpg);
+        filter: brightness(85%);
+        width: 100%;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: color;
+        display: flex;
+        background-attachment: fixed;
     }
-
 </style>
 
 
 <div class="content">
     {% for item in dados_senai %}
-        <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
+    <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
     {% endfor %}
     <div class="form-container mt-4 mb-4">
-        <h3>Reservar</h3>
+        {% for item in dados_ambiente %}
+            {% if item.id == id %}
+                <h3 style="color: #000;">{{item.titulo}}</h3>
+            {% endif %}
+        {% endfor %}
         <form method="post" class="mt-4">
             {% csrf_token %}
             <div class="form-group">
@@ -119,7 +130,7 @@
 <!-- Flatpickr JS -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         flatpickr("[name='data']", {
             inline: true,
             dateFormat: "Y-m-d" // Formato da data

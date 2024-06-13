@@ -10,9 +10,6 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" style="color: #fff;" aria-current="page" href="/">Home</a>
-                </li>
                 {% if user.is_authenticated %}
                     {% if is_coordenacao %}
                         <li class="nav-item">

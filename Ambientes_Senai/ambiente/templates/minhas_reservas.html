@@ -47,12 +47,14 @@
     .parallaxRe {
         background: url(../../static/img/bg\ cad.jpg);
         width: 100%;
-        height: 100vh;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
         background-blend-mode: color;
         display: flex;
+        background-attachment: fixed;
+        background-color: rgba(255, 0, 0, 0.121);
+        background-blend-mode: color;
         
     }
 </style>
@@ -77,6 +79,7 @@
                             <strong>Data:</strong> {{ reserva.data }} <br>
                             <strong>Horário:</strong> {{ reserva.horario }} - {{ reserva.hora_final }} <br> 
                             <strong>Sala:</strong> {{ reserva.sala.titulo }} <br>
+                            <strong>Tipo:</strong> {{ reserva.sala.sala }} <br>
                             <strong>Responsável:</strong> {{ reserva.username }}
                         </div>
                         <div class="button-container">

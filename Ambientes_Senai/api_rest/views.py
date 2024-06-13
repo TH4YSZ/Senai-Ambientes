@@ -71,8 +71,18 @@ def ambientes_detail(request, id):
 
 
 # USUÁRIO
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def usuario_create(request):
+
+    if request.method == 'GET':
+        try:
+            usuario = Usuario.objects.all()
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = UsuarioSerializer(usuario, many=True)
+        return Response(serializer.data)
+
+
     if request.method == 'POST':
         new_usuario = request.data
         serializer = UsuarioSerializer(data=new_usuario)
@@ -80,7 +90,7 @@ def usuario_create(request):
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # RESERVA
@@ -90,7 +100,7 @@ def reservas_list_create(request):
         try:
             reservas = Reserva.objects.all()
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response('Erro ao listar reservas')
         
         serializer = ReservaSerializer(reservas, many=True)
         return Response(serializer.data)

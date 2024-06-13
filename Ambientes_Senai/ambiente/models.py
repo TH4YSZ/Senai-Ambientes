@@ -15,7 +15,7 @@ class Senai(models.Model):
         return self.titulo
 
 class Ambiente(models.Model):
-    titulo = models.CharField(max_length=50)
+    titulo = models.CharField(max_length=50) 
     descricao = models.CharField(max_length=300)
     sala = models.CharField(max_length=50)
     
