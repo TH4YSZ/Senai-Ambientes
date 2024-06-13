@@ -267,7 +267,7 @@ def cad_ambiente(request):
 
             messages.success(request, "Ambiente criado!")
             return redirect("ambientes")
-        
+
     else:
         form = FormAmbiente()
 
