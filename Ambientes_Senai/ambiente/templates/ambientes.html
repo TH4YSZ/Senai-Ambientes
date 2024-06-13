@@ -29,7 +29,7 @@ Ambientes Senai
         margin: 20px 0;
         border: 1px solid rgb(128, 128, 128);
         position: relative;
-        height: 260px;
+        height: 240px;
         transition: min-height 0.4s;
     }
 
@@ -92,10 +92,6 @@ Ambientes Senai
         visibility: visible;
         opacity: 1;
     }
-    .course {
-            margin: 10px 0;
-            display: none; /* Inicialmente, os cursos estão ocultos */
-        }
     #filter-icon {
         cursor: pointer;
         font-size: 24px;
@@ -103,23 +99,6 @@ Ambientes Senai
     }
     #area {
         display: none; /* Inicialmente, o select está oculto */
-    }
-    .filter-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    .filter-container select, .filter-container form {
-        display: inline-block;
-    }
-    .filter-container form input {
-        max-width: 260px;
-    }
-    .filter-container form button {
-        max-width: 40px;
-        background-color: red;
     }
 </style>
 {% endblock %}
