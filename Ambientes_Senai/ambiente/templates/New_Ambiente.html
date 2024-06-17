@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block title %}
 Cadastrar Ambiente
@@ -6,96 +7,124 @@ Cadastrar Ambiente
 
 {% block head %}
 <style>
-    .navbar {
-        background-color: #d71921;
-        padding: 1rem;
-    }
-
-    .navbar-brand svg {
-        height: 50px;
-    }
-
-    .content {
-        text-align: center;
-        margin: 48px;
-        width: 100%;
+    body {
+        margin: 0;
+        height: 100vh;
+        background: url("{% static 'img/bg%20cad.jpg' %}") no-repeat center center fixed;
+        background-size: cover; /* Ajusta o tamanho da imagem de fundo */
+        font-family: Arial, sans-serif;
+        overflow: hidden; /* Para esconder barras de rolagem */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh; /* Tela inteira */
     }
 
     .form-container {
-        background: #fff;
+        background-color: rgba(30, 25, 25, 0.9); /* Fundo branco com transparência */
         padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        width: 100%;
-        margin: 0 auto;
-        border: 1px solid #000;
+        border-radius: 10px; /* Borda mais arredondada */
+        box-shadow: 0px 20px 40px rgba(255, 0, 0, 0.3); /* Sombra vermelha */
+        width: 50%; /* Largura do formulário ajustada */
+        max-width: 600px; /* Largura máxima do formulário */
+        height: auto; /* Altura automática conforme conteúdo */
+        text-align: center;
+        position: relative; /* Para z-index funcionar */
+        z-index: 2; /* Coloca o formulário acima do fundo */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
+        transform: translateY(-20px); /* Movimento inicial para cima */
+        margin: auto; /* Centraliza o formulário na tela */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    .form-container .form-group {
-        margin-bottom: 1rem;
+    .form-container:hover {
+        transform: translateY(-15px); /* Movimento para cima ao passar o mouse */
+        box-shadow: 0px 30px 80px rgba(255, 0, 0, 0.5); /* Sombra mais intensa ao passar o mouse */
+    }
+
+    .form-container h3 {
+        color: #ffffff;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
         text-align: left;
     }
 
-    .form-container .form-control {
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    .form-group input {
         width: 100%;
-        border: 1px solid #000;
+        padding: 16px;
+        font-size: 18px;
+        background: rgba(255, 255, 255, 0.1); /* Fundo branco com transparência */
+        border: 1px solid #463e3e;
+        border-radius: 8px;
+        color: #ffffff;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
     }
 
-    .form-container .form-control::placeholder {
-        color: #aaa;
+    .form-group input::placeholder {
+        color: #b1b1b1; /* Cor do texto do placeholder */
     }
 
-    .form-container .btn-primary {
-        background-color: #000;
+    .form-group input:not(:placeholder-shown) {
+        color: #ffffff; /* Cor do texto digitado */
+        outline: none;
+    }
+
+    .form-group input:focus {
+        background-color: rgba(255, 255, 255, 0.1); /* Fundo mantém a transparência ao focar */
+        outline: none;
+    }
+
+    .bg-red {
+        color: #ffffff;
+        background-color: #ff0000; /* Vermelho puro */
         border: none;
-        width: 100%;
+        padding: 16px 24px;
+        font-size: 18px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 10px 20px rgba(255, 0, 0, 0.3); /* Sombra ao botão */
+        margin-top: 15px;
     }
 
-    .form-container .btn-primary:hover {
-        background-color: #333;
-    }
-
-    .form-container label {
-        color: #000;
-    }
-
-    .parallaxAmb {
-        background: url('../../static/img/bg%20cad.jpg') no-repeat center center;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background-color: rgba(255, 0, 0, 0.121);
-        padding: 20px;
-        box-sizing: border-box;
+    .bg-red:hover {
+        background-color: #c80000; /* Vermelho mais escuro ao passar o mouse */
     }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="parallaxAmb">
-    <div class="content">
-        <div class="form-container mt-4 mb-4">
-            <h3>Criar Ambiente</h3>
-            <form method="post" class="mt-4">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="titulo">Título</label>
-                    {{ form.titulo }}
-                </div>
-                <div class="form-group">
-                    <label for="descricao">Descrição</label>
-                    {{ form.descricao }}
-                </div>
-                <div class="form-group">
-                    <label for="sala">Sala</label>
-                    {{ form.sala }}
-                </div>
-                <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Salvar</button>
-            </form>
+<div class="form-container">
+    <h3>CRIAR AMBIENTE</h3>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="titulo">Título</label>
+            {{ form.titulo }}
         </div>
-    </div>
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            {{ form.descricao }}
+        </div>
+        <div class="form-group">
+            <label for="sala">Sala</label>
+            {{ form.sala }}
+        </div>
+        <button type="submit" class="bg-red">Salvar</button>
+    </form>
 </div>
 {% endblock %}

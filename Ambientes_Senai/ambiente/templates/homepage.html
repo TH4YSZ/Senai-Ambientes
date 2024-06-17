@@ -2,99 +2,134 @@
 {% load static %}
 
 {% block title %}
-Login
+LOGIN
 {% endblock %}
 
 {% block body %}
+<style>
+    /* Estilo geral */
+    body {
+        margin: 0;
+        height: 100vh;
+        background: url("{% static 'img/wallpaper.jpg' %}") no-repeat center center fixed;
+        background-size: cover; /* Ajusta o tamanho do GIF para cobrir toda a página */
+        font-family: Arial, sans-serif;
+        overflow: hidden; /* Para esconder barras de rolagem */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh; /* Tela inteira */
+    }
 
-    <style>
+    /* Estilo do formulário de login */
+    .login-form {
+        background-color: rgba(30, 25, 25, 0.9); /* Fundo branco com transparência */
+        padding: 30px;
+        border-radius: 10px; /* Borda mais arredondada */
+        box-shadow: 0px 20px 40px rgba(255, 0, 0, 0.3); /* Sombra vermelha */
+        width: 50%; /* Largura do formulário ajustada */
+        max-width: 500px; /* Largura máxima do formulário */
+        height: auto; /* Altura automática conforme conteúdo */
+        text-align: center;
+        position: relative; /* Para z-index funcionar */
+        z-index: 2; /* Coloca o formulário acima do fundo */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
+        transform: translateY(-20px); /* Movimento inicial para cima */
+        margin: auto; /* Centraliza o formulário na tela */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-        .parallax {
-            background-image: url(../../static/img/bg.jpg);
-            height: 100vh;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .login-form:hover {
+        transform: translateY(-15px); /* Movimento para cima ao passar o mouse */
+        box-shadow: 0px 30px 80px rgba(255, 0, 0, 0.5); /* Sombra mais intensa ao passar o mouse */
+    }
 
-        .form-group {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
+    .login-form h2 {
+        color: #ffffff;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
 
-        .form-group label {
-            width: 100%;
-        }
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #495057;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #000000;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #ffffff;
+        font-weight: 500;
+    }
 
-        .bg-black {
-            color: #fff;
-            background-color: #000;
-            border: none;
-            padding: 0.5rem 1rem;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 0.25rem;
-            transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
+    .form-group input {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+        background: rgba(255, 255, 255, 0.1); /* Fundo branco com transparência */
+        border: 1px solid #463e3e;
+        border-radius: 8px;
+        color: #ffffff;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
 
-        .bg-black:hover {
-            background-color: #333;
-        }
-        
-    </style>
+    .form-group input::placeholder {
+        color: #b1b1b1; /* Cor do texto do placeholder branco */
+    }
 
-    <div class="parallax" >
-        <div class="flex container pb-5 m-5" style="display: flex; flex-direction: row; justify-content: center;">
-        <div class="col-lg-6">
-            {% for item in dados_senai %}
-            <h2 style="font-size: 35px; font-weight: 600;" class="text-center text-white mt-2 mb-4 p-2">
-                {{item.titulo}}
-            </h2>
-            {% endfor %}
-            <div class="p-4 mb-5 border border-danger rounded-4" style="background-color: rgb(255, 255, 255)">
-                <h2 class="text-center text-black pb-2">Entrar</h2>
-                <form action="{% url 'homepage' %}" method="post" class="p-4">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="username">Nome</label>
-                        {{form.username}}
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Senha</label>
-                        {{form.password}}
-                    </div>
-                    <div>
-                        {% if messages %}
-                        {% for mensagem in messages %}
-                        <div class="mt-2 alert alert-warning" role="alert">
-                            {{ mensagem }}
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                    </div>
-                    <button type="submit" class="bg-black">Entrar</button>
-                </form>
-            </div>
+    .form-group input:not(:placeholder-shown) {
+        color: #ffffff; /* Cor do texto digitado branco */
+        outline: none;
+    }
+
+    .form-group input:focus {
+        background-color: rgba(255, 255, 255, 0.1); /* Fundo mantém a transparência ao focar */
+        outline: none;
+    }
+
+    .bg-red {
+        color: #ffffff;
+        background-color: #ff0000; /* Vermelho puro */
+        border: none;
+        padding: 16px 24px;
+        font-size: 18px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 10px 20px rgba(255, 0, 0, 0.3); /* Sombra ao botão */
+    }
+
+    .bg-red:hover {
+        background-color: #c80000; /* Vermelho mais escuro ao passar o mouse */
+    }
+</style>
+
+<div class="login-form">
+    <h2>LOGIN</h2>
+    <form action="{% url 'homepage' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Nome de Usuário</label>
+            {{ form.username }}
         </div>
+        <div class="form-group">
+            <label for="password">Senha</label>
+            {{ form.password }}
+        </div>
+        <button type="submit" class="bg-red">Entrar</button>
+    </form>
+    <div>
+        {% if messages %}
+        {% for mensagem in messages %}
+        <div class="mt-2 alert alert-warning" role="alert" style="border-radius: 8px;">
+            {{ mensagem }}
+        </div>
+        {% endfor %}
+        {% endif %}
     </div>
-    </div>
-
+</div>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from django import forms
 
+
 TIPO_USUARIOS = (
     ("COORDENADOR", "Coordenador"),
     ("PROFESSOR", "Professor"),
@@ -37,9 +38,15 @@ class FormReserva(forms.Form):
     hora_final = forms.TimeField(label='Horario_Final', widget=forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}))
 
 class FormAmbiente(forms.Form):
-    titulo = forms.CharField(max_length=50)
-    descricao = forms.CharField(max_length=300)
-    sala = forms.CharField(max_length=50)
+    titulo = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'placeholder': 'Nome do ambiente', 'class': 'form-control'}))
+    descricao = forms.CharField(
+        max_length=300,
+        widget=forms.TextInput(attrs={'placeholder': 'Descrição', 'class': 'form-control'}))
+    sala = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'placeholder': 'Sala', 'class': 'form-control'}))
 
 class FormPesquisa(forms.Form):
     pesquisa = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Pesquisar', 'class': 'form-control'})) #Campo de pesquisa para buscar ambientes

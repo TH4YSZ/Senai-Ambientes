@@ -1,129 +1,106 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block title %}
 RESERVAS
 {% endblock %}
 
-{% block body %}
+{% block head %}
 
 <!-- Flatpickr CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
-    .navbar {
-        background-color: #d71921;
-        padding: 1rem;
-    }
 
-    .navbar-brand svg {
-        height: 50px;
-    }
-
-    .content {
-        text-align: center;
-        margin: 48px;
+    .parallaxReserv {
+        background: url('{% static "img/bg cad.jpg" %}') no-repeat center center;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+        text-align: center; /* Centraliza o texto */
     }
 
     .form-container {
-        background: #fff;
+        background: rgba(255, 255, 255, 0.9);
         padding: 30px;
         border-radius: 20px;
-        /* Borda arredondada */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        margin: 0 auto;
-        border: 1px solid #000;
-        /* Borda preta */
+        width: 900px;
+        text-align: center; /* Centraliza o conteúdo do formulário */
+        margin: 0 auto; /* Centraliza horizontalmente na página */
     }
 
     .form-container .form-group {
         margin-bottom: 1rem;
         text-align: left;
-        /* Alinhamento à esquerda */
     }
 
     .form-container .form-control {
         width: 100%;
-        /* Tamanho máximo do input em 100% */
         border: 1px solid #000;
-        /* Borda preta */
     }
 
     .form-container .form-control::placeholder {
         color: #aaa;
-        /* Cor do placeholder */
     }
 
     .form-container .btn-primary {
         background-color: #000;
-        /* Cor do botão */
         border: none;
         width: 100%;
     }
 
     .form-container .btn-primary:hover {
         background-color: #333;
-        /* Cor do botão ao passar o mouse */
     }
 
     .form-container label {
         color: #000;
-        /* Cor do texto do label */
     }
 
     .flatpickr-calendar {
         max-width: 300px;
         margin: 0 auto;
+        font-weight: 600;
     }
 
-    .parallax2 {
-        background: url(../../static/img/engrenagens.jpg);
-        filter: brightness(85%);
-        width: 100%;
-        height: 100vh;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-        background-blend-mode: color;
-        display: flex;
-        background-attachment: fixed;
-    }
 </style>
+{% endblock %}
 
 
-<div class="content">
-    {% for item in dados_senai %}
-    <h2 style="font-size: 40px; font-weight: 600;">{{ item.titulo }}</h2>
-    {% endfor %}
-    <div class="form-container mt-4 mb-4">
-        {% for item in dados_ambiente %}
-            {% if item.id == id %}
-                <h3 style="color: #000;">{{item.titulo}}</h3>
-            {% endif %}
-        {% endfor %}
-        <form method="post" class="mt-4">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_data">Data</label>
-                {{ form.data }}
-            </div>
-            <div class="form-group">
-                <label for="id_horario">Horário</label>
-                {{ form.horario }}
-            </div>
-            <div class="form-group">
-                <label for="id_horarioFinal">Horario Final</label>
-                {{ form.hora_final }}
-            </div>
-            {% if messages %}
-            {% for mensagem in messages %}
-            <div class="mt-2 alert alert-warning" role="alert">
-                {{ mensagem }}
-            </div>
-            {% endfor %}
-            {% endif %}
-            <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Reservar</button>
-        </form>
+{% block body %}
+<div class="parallaxReserv">
+    <div>
+        <h2 style="font-size: 40px; font-weight: 600; color: #000;">Reserva de Salas</h2>
+        <div class="form-container mt-4 mb-4">
+            <h3 style="color: #000;">{{ dados_ambiente.titulo }}</h3>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_data">Data</label>
+                    {{ form.data }}
+                </div>
+                <div class="form-group">
+                    <label for="id_horario">Horário</label>
+                    {{ form.horario }}
+                </div>
+                <div class="form-group">
+                    <label for="id_horarioFinal">Horario Final</label>
+                    {{ form.hora_final }}
+                </div>
+                {% if messages %}
+                {% for mensagem in messages %}
+                <div class="mt-2 alert alert-warning" role="alert">
+                    {{ mensagem }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Reservar</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -132,8 +109,9 @@ RESERVAS
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         flatpickr("[name='data']", {
+            minDate: "today",
             inline: true,
-            dateFormat: "Y-m-d" // Formato da data
+            dateFormat: "Y-m-d"
         });
     });
 </script>

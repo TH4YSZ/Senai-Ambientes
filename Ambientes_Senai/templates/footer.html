@@ -1,3 +1,33 @@
 <footer class="footer">
-    <p style="padding-top: 15px;">® Todos os direitos reservados - SENAI 2024</p> 
+    <p>® Todos os direitos reservados - SENAI 2024</p>
 </footer>
+
+<style>
+    .footer {
+        background: linear-gradient(to right, #000000, #000000, #c70b0b);
+        position: relative;
+        text-align: center;
+        padding-top: 15px;
+        width: 100%;
+        padding-top: 25px;
+        bottom: 0;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function adjustFooter() {
+            var bodyHeight = document.body.offsetHeight;
+            var windowHeight = window.innerHeight;
+            if (bodyHeight < windowHeight) {
+                document.querySelector('.footer').style.position = 'absolute';
+                document.querySelector('.footer').style.bottom = '0';
+            } else {
+                document.querySelector('.footer').style.position = 'relative';
+            }
+        }
+        
+        adjustFooter();
+        window.addEventListener('resize', adjustFooter);
+    });
+</script>

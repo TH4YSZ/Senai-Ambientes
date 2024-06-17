@@ -162,11 +162,8 @@ def reservas(request, id):
             var_hora = form.cleaned_data['horario']
             var_horafinal = form.cleaned_data['hora_final']
 
-            # Verificar se a data da reserva é no passado
-            if var_data < timezone.now().date():
-                messages.error(request, "Não é possível fazer uma reserva para uma data passada.")
             # Verificar se o horário final é anterior ao horário inicial
-            elif var_horafinal <= var_hora:
+            if var_horafinal <= var_hora:
                 messages.error(request, "O horário final deve ser posterior ao horário inicial.")
             else:
                 # Verificar se já existe uma reserva para o mesmo ambiente e horário
@@ -224,19 +221,21 @@ def minhas_reservas(request):
 
 @login_required
 def excluir_reserva(request, id):
+    reserva = get_object_or_404(Reserva, id=id)
+
+    # Verifica se o usuário tem permissão de coordenação
     if not request.user.groups.filter(name='Coordenação').exists():
         messages.error(request, "Você não tem permissão para acessar esta página.")
         return redirect("homepage")
 
-    reserva = get_object_or_404(Reserva, id=id)
-    
     if request.method == 'POST':
         reserva.delete()
         messages.success(request, "Reserva excluída com sucesso.")
         return redirect('ambientes')
-    
+
     # Exibe uma página de confirmação antes de excluir a reserva
-    return render(request, 'confirmar_exclusao.html', {'reserva': reserva})
+    context = {'reserva': reserva}
+    return render(request, 'confirmar_exclusao.html', context)
 
 
 @login_required

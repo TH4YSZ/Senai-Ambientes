@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block title %}
     Minhas Reservas
@@ -7,91 +8,119 @@
 {% block head %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
-    .content {
-        min-height: 400px;
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa; /* Cor de fundo */
     }
+
+    .parallaxRe {
+        background: url("{% static 'img/bg%20cad.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column; /* Para alinhar o conteúdo centralizado */
+    }
+
+    .content {
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 800px;
+        width: 100%;
+        text-align: left; /* Ajuste para alinhar o conteúdo à esquerda */
+    }
+
     .reservation-header {
         font-size: 2.5rem;
         font-weight: 600;
-        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: #000000; /* Cor do texto do título */
     }
-    .button-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem; /* Espaçamento entre os botões */
-    }
-    .button-container button {
-        background-color: white;
-        border: 1px solid;
-        border-radius: 5px;
-        padding: 0.5rem;
-    }
-    .button-container button.remove {
-        background-color: red;
-        color: white;
-    }
+
     .list-group-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        margin-bottom: 15px;
+        padding: 20px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
+    .list-group-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
     .reservation-info {
-        flex-grow: 1;
         text-align: left;
     }
-    .no-reservations {
-        font-size: 1.25rem;
-        font-weight: 500;
+
+    .button-container {
+        text-align: right;
     }
-    .parallaxRe {
-        background: url(../../static/img/bg\ cad.jpg);
-        width: 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-        background-blend-mode: color;
-        display: flex;
-        background-attachment: fixed;
-        background-color: rgba(255, 0, 0, 0.121);
-        background-blend-mode: color;
-        
+
+    .button-container button {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 8px;
+    }
+
+    .button-container button:hover {
+        background-color: #c82333;
+    }
+
+    .no-reservations {
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: center;
+        margin-top: 2rem;
     }
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="parallaxRe">
-<div class="container content">
-    <h2 class="reservation-header">Reservas Senai</h2>
-    <div class="reservations-container mt-4 mb-4">
-        {% if reservas %}
-            <ul class="list-group">
-                {% for reserva in reservas %}
-                    <li class="list-group-item">
-                        <div class="reservation-info">
-                            <strong>Responsável:</strong> {{ reserva.username }} <br>
-                            <strong>Data:</strong> {{ reserva.data }} <br>
-                            <strong>Horário:</strong> {{ reserva.horario }} <br>
-                            <strong>Horário Final:</strong> {{ reserva.hora_final }} <br>
-                            <strong>Sala:</strong> {{ reserva.sala.titulo }} <br>
-                            <strong>Tipo:</strong> {{ reserva.sala.sala }} <br>
-                        </div>
-                        <div class="button-container">
-                            {% if user.is_authenticated and is_coordenacao %}
-                                <form method="POST" action="{% url 'excluir_reserva' reserva.id %}">
+    <h1 class="reservation-header">RESERVAS REALIZADAS</h1>
+    <div class="content">
+        <div class="reservations-container">
+            {% if reservas %}
+                <ul class="list-group">
+                    {% for reserva in reservas %}
+                        <li class="list-group-item">
+                            <div class="reservation-info">
+                                <strong>Responsável:</strong> {{ reserva.username }} <br>
+                                <strong>Data:</strong> {{ reserva.data }} <br>
+                                <strong>Horário:</strong> {{ reserva.horario }} <br>
+                                <strong>Horário Final:</strong> {{ reserva.hora_final }} <br>
+                                <strong>Sala:</strong> {{ reserva.sala.titulo }} <br>
+                                <strong>Tipo:</strong> {{ reserva.sala.sala }} <br>
+                            </div>
+                            <div class="button-container">
+                                {% if user.is_authenticated and is_coordenacao %}
+                                <form method="POST" action="{% url 'excluir_reserva' reserva.id %}" onsubmit="return confirm('Tem certeza que deseja excluir e cancelar esta reserva?');">
                                     {% csrf_token %}
-                                    <button type="submit" class="remove">Remover</button>
+                                    <button type="submit">
+                                        <i class="bi bi-trash3-fill"></i> Remover
+                                    </button>
                                 </form>
-                            {% endif %}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="no-reservations">Não há reservas.</p>
-        {% endif %}
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-reservations">Não há reservas</p>
+            {% endif %}
+        </div>
     </div>
-</div>
 </div>
 {% endblock %}

@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff0000;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(to right, #000000, #000000, #c70b0b); font-size: 18px;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="" style="max-width: 40%;">
             {% for item in dados_senai %}   
-                <img src="{{ item.logo.url }}" alt="Logo" class="logo">
+                <img src="{{ item.logo.url }}" alt="Logo" class="logo" style="width: 500px;">
             {% endfor %}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,21 +13,21 @@
                 {% if user.is_authenticated %}
                     {% if is_coordenacao %}
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff;" href="{% url 'cadastro' %}">Cadastro</a>
+                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'cadastro' %}">CADASTRO</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff;" href="{% url 'cad_ambiente' %}">Add Ambiente</a>
+                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'cad_ambiente' %}">ADICIONAR NOVO AMBIENTE</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff;" href="{% url 'todas_reservas' %}"> Reservas SENAI</a>
+                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'todas_reservas' %}">RESERVAS FEITAS</a>
                         </li>
                     {% endif %}
                     {% if is_coordenacao or is_professores %}
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff;" href="{% url 'ambientes' %}">Ambientes</a>
+                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'ambientes' %}">VISUALIZAR AMBIENTES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff;" href="{% url 'minhas_reservas' %}">Minhas reservas</a>
+                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'minhas_reservas' %}">MINHAS RESERVAS</a>
                         </li>
                     {% endif %}
                 {% endif %}
@@ -35,3 +35,34 @@
         </div>
     </div>
 </nav>
+
+<style>
+    .navbar-nav .nav-link {
+        position: relative;
+        color: #fff;
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .navbar-nav .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        display: block;
+        margin-top: 5px;
+        right: 0;
+        background: #fff;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #c70b0b; /* Altere a cor ao passar o mouse */
+        transform: scale(1.1); /* Aumenta o tamanho ao passar o mouse */
+    }
+
+    .navbar-nav .nav-link:hover::after {
+        width: 100%; /* Cria o sublinhado ao passar o mouse */
+        left: 0;
+        background: #c70b0b; /* Cor do sublinhado */
+    }
+</style>
