@@ -169,7 +169,7 @@ Ambientes Senai
                 <p class="card-body">Lotação: {{ item.descricao }}</p>
                 <p class="card-text">Sala: {{ item.sala }}</p>
                 <a href="{% url 'reservas' item.id %}" class="btn btn-dark btn-lg">Reservar</a>
-                {% if user.is_authenticated and not is_coordenacao %}
+                {% if user.is_authenticated and not is_professores %}
                     <form method="POST" action="{% url 'excluir_ambiente' item.id %}" onsubmit="return confirm('Tem certeza que deseja excluir este ambiente?');">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-lg">
