@@ -67,9 +67,7 @@
             <b>Mirella</b>
             </sub>
         </a>
-        </td>
-        
-        
+        </td>   
     </tr>
     </table>
 </div>
