@@ -11,5 +11,5 @@ urlpatterns = [
     path('excluir_ambiente/<int:id>/', views.excluir_ambiente, name='excluir_ambiente'),
     path('cad_ambiente', views.cad_ambiente, name='cad_ambiente'),
     path('todas_reservas/', views.todas_reservas, name='todas_reservas'),
-
+    path('logout/', views.custom_logout, name='logout'),
 ]

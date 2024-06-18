@@ -113,6 +113,7 @@ def reservas_list_create(request):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
 
 @api_view(['DELETE'])
 def reservas_detail(request, id):

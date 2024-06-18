@@ -139,6 +139,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'homepage'
+LOGOUT_REDIRECT_URL = 'homepage'
 
 CORS_ORIGIN_ALLOW_ALL = True
 

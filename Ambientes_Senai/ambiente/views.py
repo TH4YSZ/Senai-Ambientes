@@ -5,6 +5,7 @@ from .models import *
 from .forms import *
 
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
@@ -303,3 +304,8 @@ def cad_ambiente(request):
 
     context.update({"form": form})
     return render(request, 'New_Ambiente.html', context)
+
+@login_required
+def custom_logout(request):
+    logout(request)
+    return redirect('homepage')

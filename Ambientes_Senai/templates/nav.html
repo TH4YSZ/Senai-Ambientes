@@ -13,23 +13,33 @@
                 {% if user.is_authenticated %}
                     {% if is_coordenacao %}
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'cadastro' %}">CADASTRO</a>
+                            <a class="nav-link" href="{% url 'cadastro' %}">CADASTRO</a>
                         </li>
+                        <li class="separator"></li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'cad_ambiente' %}">ADICIONAR NOVO AMBIENTE</a>
+                            <a class="nav-link" href="{% url 'cad_ambiente' %}">ADICIONAR NOVO AMBIENTE</a>
                         </li>
+                        <li class="separator"></li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'todas_reservas' %}">RESERVAS FEITAS</a>
+                            <a class="nav-link" href="{% url 'todas_reservas' %}">RESERVAS FEITAS</a>
                         </li>
+                        <li class="separator"></li>
                     {% endif %}
                     {% if is_coordenacao or is_professores %}
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'ambientes' %}">VISUALIZAR AMBIENTES</a>
+                            <a class="nav-link" href="{% url 'ambientes' %}">VISUALIZAR AMBIENTES</a>
                         </li>
+                        <li class="separator"></li>
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fff; margin-left: 10px;" href="{% url 'minhas_reservas' %}">MINHAS RESERVAS</a>
+                            <a class="nav-link" href="{% url 'minhas_reservas' %}">MINHAS RESERVAS</a>
                         </li>
+                        <li class="separator"></li>
                     {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-right"></i> SAIR
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
@@ -41,6 +51,7 @@
         position: relative;
         color: #fff;
         transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        padding: 0 15px; /* Espaçamento horizontal dos links */
     }
 
     .navbar-nav .nav-link::after {
@@ -65,4 +76,86 @@
         left: 0;
         background: #c70b0b; /* Cor do sublinhado */
     }
+
+    .separator {
+        display: inline-block;
+        border-left: 1px solid #fff;
+        height: 30px; /* Ajuste a altura conforme necessário */
+        align-self: center; /* Centraliza verticalmente */
+        margin: 0 15px; /* Espaçamento horizontal */
+    }
+    
+    /* responsividade */
+
+    @media (max-width: 1800px) {
+        .navbar-nav .nav-link {
+            padding: 0 10px; /* Espaçamento horizontal dos links */
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 1350px) {
+        /* faça ir para um botao de menu */
+        .navbar-nav .nav-link {
+            padding: 0 10px; /* Espaçamento horizontal dos links */
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .navbar-nav .nav-link {
+            padding: 0 10px; /* Espaçamento horizontal dos links */
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .navbar-nav .nav-link {
+            padding: 0 10px; /* Espaçamento horizontal dos links */
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .separator {
+            display: none;
+        }
+
+        .logo{
+            margin-bottom: 10px;
+        }
+
+    }
+
+    @media (max-width: 768px) {
+        .navbar-nav .nav-link {
+            padding: 0 10px; /* Espaçamento horizontal dos links */
+        }
+    }
+
+    @media (max-width: 576px) {
+        .navbar-nav .nav-link {
+            padding: 0 5px; /* Espaçamento horizontal dos links */
+        }
+    }
+
+
+    /* Logo */
+    .logo {
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media (max-width: 992px) {
+        .logo {
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .logo {
+            max-width: 80%;
+        }
+    }
+
+
 </style>

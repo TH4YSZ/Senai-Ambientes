@@ -8,4 +8,6 @@ urlpatterns = [
     path('usuario/', views.usuario_create, name='usuario_create'),
     path('reserva/', views.reservas_list_create, name='reservas_list_create'),
     path('reserva/<int:id>', views.reservas_detail, name='reserva_detail'),
+
 ]
+
