@@ -18,47 +18,93 @@ RESERVAS
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 100%;
         padding: 20px;
         text-align: center; /* Centraliza o texto */
+        min-height: 100vh;
     }
 
     .form-container {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 900px;
-        text-align: center; /* Centraliza o conteúdo do formulário */
-        margin: 0 auto; /* Centraliza horizontalmente na página */
+        background-color: rgba(30, 25, 25, 0.9); /* Fundo branco com transparência */
+        border-radius: 10px; /* Borda mais arredondada */
+        box-shadow: 0px 20px 40px rgba(255, 0, 0, 0.3); /* Sombra vermelha */
+        width: 600px; /* Largura do formulário ajustada */
+        max-width: 100%; /* Largura máxima do formulário aumentada */
+        height: auto; /* Altura automática conforme conteúdo */
+        text-align: center;
+        position: relative; /* Para z-index funcionar */
+        z-index: 2; /* Coloca o formulário acima do fundo */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
+        transform: translateY(-20px); /* Movimento inicial para cima */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 20px auto; /* Centraliza o formulário horizontalmente */
     }
 
-    .form-container .form-group {
-        margin-bottom: 1rem;
+    .form-container:hover {
+        transform: translateY(-15px); /* Movimento para cima ao passar o mouse */
+        box-shadow: 0px 30px 80px rgba(255, 0, 0, 0.5); /* Sombra mais intensa ao passar o mouse */
+    }
+
+    .form-container h3 {
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
         text-align: left;
     }
 
-    .form-container .form-control {
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    .form-group input {
         width: 100%;
-        border: 1px solid #000;
+        padding: 16px;
+        font-size: 18px;
+        background: rgba(255, 255, 255, 0.1); /* Fundo branco com transparência */
+        border: 1px solid #463e3e;
+        border-radius: 8px;
+        color: #ffffff;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
     }
 
-    .form-container .form-control::placeholder {
-        color: #aaa;
+    .form-group input::placeholder {
+        color: #b1b1b1; /* Cor do texto do placeholder */
     }
 
-    .form-container .btn-primary {
-        background-color: #000;
+    .form-group input:not(:placeholder-shown) {
+        color: #ffffff; /* Cor do texto digitado */
+        outline: none;
+    }
+
+    .form-group input:focus {
+        background-color: rgba(255, 255, 255, 0.1); /* Fundo mantém a transparência ao focar */
+        outline: none;
+    }
+
+    .bg-red {
+        color: #ffffff;
+        background-color: #ff0000; /* Vermelho puro */
         border: none;
-        width: 100%;
+        padding: 16px 24px;
+        font-size: 18px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        box-shadow: 0px 10px 20px rgba(255, 0, 0, 0.3); /* Sombra ao botão */
+        margin-top: 15px;
     }
 
-    .form-container .btn-primary:hover {
-        background-color: #333;
-    }
-
-    .form-container label {
-        color: #000;
+    .bg-red:hover {
+        background-color: #c80000; /* Vermelho mais escuro ao passar o mouse */
     }
 
     .flatpickr-calendar {
@@ -74,9 +120,9 @@ RESERVAS
 {% block body %}
 <div class="parallaxReserv">
     <div>
-        <h2 style="font-size: 40px; font-weight: 600; color: #000;">Reserva de Salas</h2>
+        <h2 style="font-size: 40px; font-weight: 600; color: #000;">RESERVAR SALA</h2>
         <div class="form-container mt-4 mb-4">
-            <h3 style="color: #000;">{{ dados_ambiente.titulo }}</h3>
+            <h3 style="color: #fafafa;">{{ dados_ambiente.titulo }}</h3>
             <form method="post" class="mt-4">
                 {% csrf_token %}
                 <div class="form-group">
@@ -98,7 +144,7 @@ RESERVAS
                 </div>
                 {% endfor %}
                 {% endif %}
-                <button style="margin-bottom: 20px;" type="submit" class="btn btn-primary mt-3">Reservar</button>
+                <button style="margin-bottom: 20px;" type="submit" class="bg-red">Reservar</button>
             </form>
         </div>
     </div>
